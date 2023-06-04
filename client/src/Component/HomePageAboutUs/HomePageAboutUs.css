@@ -1,0 +1,36 @@
+.hexagon {
+    width: 200px;
+    height: 230px;
+    position: relative;
+  }
+  
+  .hexagon:before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(60deg);
+    background-color: #fff;
+  }
+  
+  .hexagon:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(-60deg);
+    background-color: #fff;
+  }
+  
+  .hexagon img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  

@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* @import "react-alice-carousel/lib/alice-carousel.css";
+/* @import "react-alice-carousel/lib/scss/alice-carousel.scss"; */
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  font-family: 'Jost', 'sans-serif';
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .bg-cover {
+    background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+  }
+}
+
+/* /////////////////////////////// */
+.new-clip-polygon {
+  -webkit-clip-path: polygon(72% 0, 100% 52%, 71% 100%, 27% 100%, 0 51%, 30% 0);
+  clip-path: polygon(72% 0, 100% 52%, 71% 100%, 27% 100%, 0 51%, 30% 0);
+}
+
+.clip-hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  /* transform: skewY(20deg); */
+  transform: rotate(30deg);
+}
+
+.clip-hexagon-1 {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.clip-hexagon_2_1 {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.clip-hexagon-1 {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.slanted {
+  width: 200px;
+  max-width: 200px;
+  height: 60px;
+  clip-path: polygon(0 0%, 75% 0, 100% 100%, 0 100%);
+  align-items: center;
+  padding-left: 10px;
+}
+
+.slanted-left {
+  width: 200px;
+  height: 60px;
+  clip-path: polygon(0 0%, 100% 0, 100% 100%, 0 100%, 25% 100%);
+  align-items: center;
+  padding: 10px 10px;
+}

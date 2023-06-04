@@ -1,0 +1,20 @@
+<svg id="Heart_Selected" data-name="Heart Selected" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <g id="Action" opacity="0.5">
+    <g id="Outlined-_-Action-_-favorite_border" data-name="Outlined-/-Action-/-favorite_border">
+      <g id="Group_76" data-name="Group 76">
+        <path id="Path" d="M0,0H36V36H0Z" fill="none" fill-rule="evenodd"/>
+        <path id="_-Icon-Color" data-name="🔹-Icon-Color" d="M23.75,3A8.983,8.983,0,0,0,17,6.135,8.983,8.983,0,0,0,10.25,3,8.17,8.17,0,0,0,2,11.25c0,5.67,5.1,10.29,12.825,17.31L17,30.525l2.175-1.98C26.9,21.54,32,16.92,32,11.25A8.17,8.17,0,0,0,23.75,3Zm-6.6,23.325-.15.15-.15-.15C9.71,19.86,5,15.585,5,11.25A5.127,5.127,0,0,1,10.25,6,5.864,5.864,0,0,1,15.6,9.54H18.41A5.827,5.827,0,0,1,23.75,6,5.127,5.127,0,0,1,29,11.25C29,15.585,24.29,19.86,17.15,26.325Z" transform="translate(1 1.5)" fill="#fff" fill-rule="evenodd"/>
+      </g>
+    </g>
+  </g>
+  <g id="Outlined">
+    <g id="Action-2" data-name="Action">
+      <g id="Outlined-_-Action-_-favorite" data-name="Outlined-/-Action-/-favorite">
+        <g id="Group_85" data-name="Group 85">
+          <path id="Path-2" data-name="Path" d="M0,0H36V36H0Z" fill="none" fill-rule="evenodd"/>
+          <path id="_-Icon-Color-2" data-name="🔹-Icon-Color" d="M17,30.525l-2.175-1.98C7.1,21.54,2,16.92,2,11.25A8.17,8.17,0,0,1,10.25,3,8.983,8.983,0,0,1,17,6.135,8.983,8.983,0,0,1,23.75,3,8.17,8.17,0,0,1,32,11.25c0,5.67-5.1,10.29-12.825,17.31Z" transform="translate(1 1.5)" fill="#df1e1e" fill-rule="evenodd"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
