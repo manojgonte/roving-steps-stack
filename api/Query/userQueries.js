@@ -1,6 +1,6 @@
 export const GET_USERS = "SELECT * FROM users";
 
-export const CREATE_USERS = "INSERT INTO users (id, first_name, last_name, email, phone, password, status, username, gender) VALUES (?,?,?,?,?,?,?,?,?)";
+export const CREATE_USERS = "INSERT INTO users (first_name, last_name, email, phone, password, status, username, gender) VALUES (?,?,?,?,?,?,?,?,?)";
 
 export const GET_USER_WITH_ID = "SELECT * FROM users WHERE id=?";
 
@@ -9,6 +9,6 @@ export const GET_TOURS = "SELECT * FROM tours";
 
 export const GET_TOURS_WITH_ID = "SELECT * FROM tours WHERE id=?";
 
-export const CREATE_TOUR = "INSERT INTO `tours`(`id`, `name`, `image`, `type`, `destination`, `short_desc`, `description`, `price`, `days`, `nights`, `amenities`, `inclusions`, `exclusions`, `note`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+export const CREATE_TOUR = "INSERT INTO `tours`(`name`, `image`, `type`, `destination`, `short_desc`, `description`, `days`, `nights`, `adult_price`, `child_price`, `from_date`, `end_date`, `amenities`, `inclusions`, `exclusions`, `note`, `is_popular`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 export const DELETE_TOUR = "DELETE FROM tours WHERE id=?"
