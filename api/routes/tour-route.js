@@ -28,6 +28,8 @@ router.get("/tour", async (req, res) => {
         res.status(200).send(
             JSON.stringify({
                 message: "All tours fetched succefully",
+                status: "success",
+                statusCode: 200,
                 data: result
             })
         );

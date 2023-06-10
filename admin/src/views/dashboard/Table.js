@@ -87,11 +87,12 @@ const tours = [
 ]
 
 const statusObj = {
-    Inactive: { color: 'error' },
-    Active: { color: 'success' }
+    0: { color: 'error' },
+    1: { color: 'success' }
 }
 
-const DashboardTable = () => {
+const DashboardTable = ({ tourList }) => {
+    
     return (
         <Card>
             <TableContainer>
@@ -109,19 +110,19 @@ const DashboardTable = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {tours.map((row, index) => (
+                        {tourList?.map((row, index) => (
                             <TableRow hover key={row.name} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
                                 <TableCell>{index+1}</TableCell>
                                 <TableCell sx={{ py: theme => `${theme.spacing(0.5)} !important` }}>
                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <Typography sx={{ fontWeight: 500, fontSize: '0.875rem !important' }}>{row.name}</Typography>
-                                        <Typography variant='caption'>{row.desc}</Typography>
+                                        <Typography variant='caption'>{row.description?.slice(0,30)}</Typography>
                                     </Box>
                                 </TableCell>
-                                <TableCell>{row.tour_type}</TableCell>
-                                <TableCell>{row.tourist}</TableCell>
-                                <TableCell>{row.date}</TableCell>
-                                <TableCell>{row.date}</TableCell>
+                                <TableCell>{row.type}</TableCell>
+                                <TableCell>{"row.tourist"}</TableCell>
+                                <TableCell>{"1/1/2023"}</TableCell>
+                                <TableCell>{"1/1/2023"}</TableCell>
                                 <TableCell>
                                     <Chip
                                         label={row.status}

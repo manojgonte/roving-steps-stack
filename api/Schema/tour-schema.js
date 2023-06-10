@@ -18,5 +18,8 @@ export const createTourValidation = Joi.object({
         exclusions: Joi.string().required(),
         note: Joi.string().required(),
         is_popular: Joi.string(),
-        status: Joi.string()
+        status: Joi.string(),
+        from_date: Joi.date().required(),
+        end_date: Joi.date().required(),
+        is_popular: Joi.string()
 })

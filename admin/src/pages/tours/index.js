@@ -19,6 +19,8 @@ import TabContext from '@mui/lab/TabContext'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
+import { getTourData } from 'src/services/service'
+import { useEffect } from 'react'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
     [theme.breakpoints.down('md')]: {
@@ -40,11 +42,21 @@ const TabName = styled('span')(({ theme }) => ({
 
 const MUITable = () => {
 
-    const [value, setValue] = useState('account')
+    const [value, setValue] = useState('account');
+    const [tourList, setTourList] = useState([]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue)
     }
+
+    const tourListFun = async () => {
+        const data = await getTourData();
+        setTourList(data);
+    }
+
+    useEffect(() => {
+        tourListFun();
+    }, []);
 
     return (
         <Grid container spacing={6}>
@@ -90,7 +102,7 @@ const MUITable = () => {
 
                         <TabPanel sx={{ p: 0 }} value='account'>
                             <Grid item xs={12}>
-                                <Table />
+                                <Table tourList={tourList} />
                             </Grid>
                         </TabPanel>
                         <TabPanel sx={{ p: 0 }} value='security'>

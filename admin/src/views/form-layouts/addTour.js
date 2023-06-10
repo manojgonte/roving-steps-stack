@@ -34,7 +34,7 @@ const FromDate = forwardRef((props, ref) => {
 const EndDate = forwardRef((props, ref) => {
     return <TextField fullWidth {...props} inputRef={ref} label='End Date' autoComplete='off' />
 })
-    
+
 const ButtonStyled = styled(Button)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
         width: '100%',
@@ -229,7 +229,7 @@ const FormLayoutsSeparator = () => {
                                     onChange={(e)=>setDays(e.target.value)}
                                     id='form-layouts-separator-multiple-select'
                                     labelId='form-layouts-separator-multiple-select-label'
-                                    input={<OutlinedInput label='Day/s'  />} >
+                                    input={<OutlinedInput label='Day/s' />} >
                                     <MenuItem value='1'>1</MenuItem>
                                     <MenuItem value='2'>2</MenuItem>
                                     <MenuItem value='3'>3</MenuItem>
