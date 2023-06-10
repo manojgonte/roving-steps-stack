@@ -10,7 +10,7 @@ export default function Filters({ title, TourList }) {
         <div className="border border-[#C6C6C6] rounded-md w-full h-auto p-4">
             <div className="w-full h-8 flex flex-row justify-between">
                 <div>
-                    <span>{title}</span>
+                    <span className="text-black">{title}</span>
                 </div>
                 <div onClick={() => setShowFilterList(() => !showFilterList)}>
                     {showFilterList ? <UpOutlined /> :

@@ -4,37 +4,32 @@ import Header from "../Header";
 import Filters from "@/Component/Filter/Filter";
 import Card from "@/Component/Common/CardComponents/Card";
 import SearchFilter from "@/Component/Common/SearchFilter/SearchFilter";
+import { useEffect, useState } from "react";
+import { getDestinationList, getTourList } from "@/Services/commonServices";
 
 export default function Tours() {
 
-    const domesticTourList = [
-        "Andaman",
-        "Andhra Pradesh",
-        "Chardham",
-        "Goa",
-        "Gujrat",
-        "Himachal",
-        "Kailash Manasarovar",
-        "Karnataka",
-        "Kashmir",
-        "Kerala"
-    ];
+    const [domesticList, setDomesticList] = useState([]);
+    const [i18nList, setI18nList] = useState([]);
+    const [popularDestinations, setPopularDestinations] = useState([]);
+    const [tourPackages, setTourPackages] = useState([]);
 
-    const i18nTourList = [
-        "Africa",
-        "America",
-        "Australia NewZealand",
-        "Australia NewZealand",
-        "Dubai and MiddleEast"
-    ];
+    const getList = async () => {
+        const list = await getDestinationList();
+        setDomesticList(list?.domestic);
+        setI18nList(list?.international);
+    }
 
-    const specialTours = [
-        "Adventure Tour",
-        "Andhra Pradesh",
-        "Chardham",
-        "Goa",
-        "Gujrat",
-    ];
+    const tourList = async () => {
+        const tourList = await getTourList();
+        setPopularDestinations(tourList?.popDest);
+        setTourPackages(tourList?.tourPackage);
+    }
+
+    useEffect(() => {
+        getList();
+        tourList();
+    }, []);
 
     const cards = [
         {
@@ -208,15 +203,15 @@ export default function Tours() {
                     {/* Filter Section */}
                     <Filters
                         title="Domestic Tours"
-                        TourList={domesticTourList}
+                        TourList={domesticList}
                     />
                     <Filters
                         title="International Tours"
-                        TourList={i18nTourList}
+                        TourList={i18nList}
                     />
                     <Filters
                         title="Special Tours"
-                        TourList={specialTours}
+                        TourList={i18nList}
                     />
                 </div>
                 <div className="w-9/12 p-4 flex flex-col gap-4">
@@ -234,17 +229,29 @@ export default function Tours() {
                     <div className="flex flex-col gap-8">
                         <div className="">
                             <div className="h-14">
-                                <span className="text-2xl  font-medium">Popular Destinations</span>
+                                <span className="text-2xl  font-medium text-black">Popular Destinations</span>
                             </div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
                                     {
-                                        cards.map((data, index) => <Card key={index} cardDetails={data} />)
+                                        tourPackages?.length > 0 ?
+                                        tourPackages.map((data, index) => <Card key={index} cardDetails={data} />) :
+                                            (
+                                                <div className="font-bold text-lg text-black">
+                                                    No Destinations available
+                                                </div>
+                                            )
                                     }
                                 </div>
                                 <div className="flex flex-row justify-between">
                                     {
-                                        cards.map((data, index) => <Card key={index} cardDetails={data} />)
+                                        popularDestinations?.length > 0 ?
+                                            popularDestinations?.map((data, index) => <Card key={index} cardDetails={data} />) :
+                                            (
+                                                <div className="font-bold text-lg text-black">
+                                                    No Destinations available
+                                                </div>
+                                            )
                                     }
                                 </div>
                             </div>
@@ -252,17 +259,29 @@ export default function Tours() {
 
                         <div className="">
                             <div className="h-14">
-                                <span className="text-2xl  font-medium">Popular Tour Packages</span>
+                                <span className="text-2xl  font-medium text-black">Popular Tour Packages</span>
                             </div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
                                     {
-                                        cardsTour.map((data, index) => <Card key={index} cardDetails={data} />)
+                                        tourPackages?.length > 0 ?
+                                            tourPackages?.map((data, index) => <Card key={index} cardDetails={data} />) :
+                                            (
+                                                <div className="font-bold text-lg text-black">
+                                                    No Destinations available
+                                                </div>
+                                            )
                                     }
                                 </div>
                                 <div className="flex flex-row justify-between">
                                     {
-                                        cardsTour.map((data, index) => <Card key={index} cardDetails={data} />)
+                                        tourPackages?.length > 0 ?
+                                            tourPackages?.map((data, index) => <Card key={index} cardDetails={data} />) :
+                                            (
+                                                <div className="font-bold text-lg text-black">
+                                                    No Destinations available
+                                                </div>
+                                            )
                                     }
                                 </div>
                             </div>

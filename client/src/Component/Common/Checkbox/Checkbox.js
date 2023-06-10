@@ -16,8 +16,8 @@ export default function CheckboxComponent({ name, index }) {
                     setIsChecked(value)
                 }}
                 borderColor="#C6C6C6"
-                style={{ cursor: "pointer" }}
-                labelStyle={{ marginLeft: 5, userSelect: "none", fontSize: "12px", paddingLeft: "4px" }}
+                style={{ cursor: "pointer", color: 'black' }}
+                labelStyle={{ marginLeft: 5, userSelect: "none", fontSize: "12px", paddingLeft: "4px", color: 'black' }}
                 label={name}
             />
         </div>

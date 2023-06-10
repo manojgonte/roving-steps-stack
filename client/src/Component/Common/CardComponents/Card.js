@@ -15,12 +15,13 @@ const Card = (props) => {
         path
     } = props.cardDetails;
 
+    console.log(props?.cardDetails)
     return (
         <div className="flex flex-col w-60 h-full gap-4 items-center">
             <div className="w-60 h-60 p-3 bg-white rounded-md ">
                 <div className={`w-full h-full relative rounded-md overflow-hidden`}>
                     <Image
-                        src={img}
+                        src={img !== undefined ? img : "/Assets/images/common/Hexagone_1.jpg"}
                         fill
                         style={{
                             width: "100%",
@@ -35,7 +36,7 @@ const Card = (props) => {
             </div>
             <div className="px-1 items-center">
                 <div className="flex flex-row items-center">
-                    <div className=" font-bold text-lg pr-3">
+                    <div className=" font-bold text-lg pr-3 text-black">
                         {name}
                     </div>
                     {!seeMore && <div className=" font-normal text-sm">
@@ -49,7 +50,7 @@ const Card = (props) => {
                     <FaStarHalfAlt color="#eca740" size={15} />
                     <FaRegStar color="#eca740" size={15} />
                 </div>
-                {seeMore && <div className="flex flex-col h-8 text-xs overflow-ellipsis overflow-hidden line-clamp-3 ">
+                {seeMore && <div className="flex flex-col h-8 text-xs overflow-ellipsis overflow-hidden line-clamp-3 text-black">
                     {`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi nulla voluptate nam placeat minus ducimus. Tenetur quasi, harum illum sapiente dolorem voluptas, praesentium commodi quisquam aliquam quas, voluptatum animi ullam!`}
                 </div>}
                 {!seeMore &&
