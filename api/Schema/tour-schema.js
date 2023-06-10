@@ -5,14 +5,18 @@ export const createTourValidation = Joi.object({
         image: Joi.string(),
         type: Joi.string().required(),
         destination: Joi.string().required(),
-        short_desc: Joi.string().required(),
+        short_desc: Joi.string(),
         description: Joi.string().required(),
-        price: Joi.number().required(),
+        from_date: Joi.string().required(),
+        end_date: Joi.string().required(),
+        adult_price: Joi.string().required(),
+        child_price: Joi.string().required(),
         days: Joi.number().required(),
         nights: Joi.number().required(),
         amenities: Joi.string().required(),
         inclusions: Joi.string().required(),
         exclusions: Joi.string().required(),
         note: Joi.string().required(),
-        status: Joi.string().required()
+        is_popular: Joi.string(),
+        status: Joi.string()
 })

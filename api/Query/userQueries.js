@@ -9,7 +9,7 @@ export const GET_TOURS = "SELECT * FROM tours";
 
 export const GET_TOURS_WITH_ID = "SELECT * FROM tours WHERE id=?";
 
-export const CREATE_TOUR = "INSERT INTO `tours`(`name`, `image`, `type`, `destination`, `short_desc`, `description`, `days`, `nights`, `adult_price`, `child_price`, `from_date`, `end_date`, `amenities`, `inclusions`, `exclusions`, `note`, `is_popular`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+export const CREATE_TOUR = "INSERT INTO `tours`(`name`, `image`, `type`, `destination`, `short_desc`, `description`, `adult_price`, `child_price`, `from_date`, `end_date`, `days`, `nights`, `amenities`, `inclusions`, `exclusions`, `note`, `is_popular`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 export const DELETE_TOUR = "DELETE FROM tours WHERE id=?";
 
