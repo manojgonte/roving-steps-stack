@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 const router = express.Router();
-import { getAllTours, getTourWithID, createTour } from '../Controller/tour.js';
+import { getAllTours, getTourWithID, createTour, getDestList } from '../Controller/tour.js';
 import { createTourValidation } from '../Schema/tour-schema.js';
 
 const upload = multer({
@@ -117,4 +117,21 @@ router.post("/tour/create/", upload, async (req, res) => {
     }
 })
 
+router.get('/destinationList/get', async (req, res) => {
+    try {
+        const destList = await getDestList();
+        res.status(200).json({
+            status: "success",
+            statusCode: 200,
+            message: "Destination list fetched succefully",
+            data: destList
+        })
+    } catch (error) {
+        res.status(404).json({
+            error: error,
+            status: "fail",
+            statusCode: 404
+        })
+    }    
+})
 export default router;

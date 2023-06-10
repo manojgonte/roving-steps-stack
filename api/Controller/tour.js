@@ -1,4 +1,4 @@
-import { CREATE_TOUR, DELETE_TOUR, GET_TOURS, GET_TOURS_WITH_ID } from "../Query/userQueries.js";
+import { CREATE_TOUR, DELETE_TOUR, GET_DESTINATIONS, GET_TOURS, GET_TOURS_WITH_ID } from "../Query/userQueries.js";
 import { pool } from "../connection/database.js";
 
 const database = pool.promise();
@@ -21,4 +21,24 @@ export const createTour = async (params) => {
 export const deleteTour = async (params) => {
     const data = await database.query(DELETE_TOUR, params);
     return data;
+}
+
+export const getDestList = async () => {
+    const data = await database.query(GET_DESTINATIONS);
+    let international = [];
+    let domestic = [];
+
+    data[0]?.map((dest) => {
+        if(dest?.type === "Domestic") {
+            domestic.push(dest);
+        }
+
+        if(dest?.type === "International") {
+            international.push(dest);
+        }
+    })
+    return {
+        international: international,
+        domestic: domestic
+    };
 }

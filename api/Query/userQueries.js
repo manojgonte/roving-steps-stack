@@ -24,3 +24,6 @@ export const DELETE_TOUR_ITINERARY = "DELETE FROM tour_itinerary WHERE id=?"
 
 // Auth Queries
 export const USER_EXIST = "SELECT id, status, username FROM users WHERE username = ? AND password = ?";
+
+// destinations
+export const GET_DESTINATIONS = "SELECT * FROM destination";
