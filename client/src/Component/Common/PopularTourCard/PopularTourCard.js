@@ -35,10 +35,10 @@ const PopularTourCard = (props) => {
             </div>
             <div className="px-1 items-center">
                 <div className="flex flex-row items-center">
-                    <div className=" font-bold text-lg pr-3">
+                    <div className=" font-bold text-lg pr-3 text-black">
                         {name}
                     </div>
-                    {!seeMore && <div className=" font-normal text-sm">
+                    {!seeMore && <div className=" font-normal text-sm text-black">
                         5N/6D
                     </div>}
                 </div>
@@ -49,11 +49,11 @@ const PopularTourCard = (props) => {
                     <FaStarHalfAlt color="#eca740" size={15} />
                     <FaRegStar color="#eca740" size={15} />
                 </div>
-                {seeMore && <div className="flex flex-col h-8 text-xs overflow-ellipsis overflow-hidden line-clamp-3 ">
+                {seeMore && <div className="flex flex-col h-8 text-xs overflow-ellipsis overflow-hidden line-clamp-3 text-black">
                     {`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi nulla voluptate nam placeat minus ducimus. Tenetur quasi, harum illum sapiente dolorem voluptas, praesentium commodi quisquam aliquam quas, voluptatum animi ullam!`}
                 </div>}
                 {!seeMore &&
-                    <div className=" flex flex-col gap-3">
+                    <div className=" flex flex-col gap-3 text-black">
                         <div>
                             {stars} Stars
                         </div>

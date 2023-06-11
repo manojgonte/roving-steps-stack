@@ -1,4 +1,8 @@
 import Image from "next/image";
+import { IoIosFingerPrint } from "react-icons/io";
+import { MdOutlineFlightTakeoff } from "react-icons/md";
+import { GiForkKnifeSpoon } from "react-icons/gi";
+import { BsTelephone } from "react-icons/bs";
 
 const HomePageChooseUs = () => {
     return (
@@ -25,10 +29,8 @@ const HomePageChooseUs = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-8 border-b border-[#E2E2E2] py-6">
                     <div className="flex flex-row gap-5">
-                        <div className="w-16 h-16 rounded-md overflow-hidden">
-                            <Image src={"/Assets/images/Icons/Next Hover.png"}
-                                width={100} height={100}
-                                className="w-full h-full object-fill" alt="choose us image" />
+                        <div className="w-16 h-16 rounded-md overflow-hidden border flex justify-center items-center bg-[#00000029]">
+                            <IoIosFingerPrint color="#FFF" size={40} />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-[#ECA740]  font-bold text-md">Easy Booking</span>
@@ -36,10 +38,8 @@ const HomePageChooseUs = () => {
                         </div>
                     </div>
                     <div className="flex flex-row gap-5">
-                        <div className="w-16 h-16 rounded-md overflow-hidden">
-                            <Image src={"/Assets/images/Icons/Next Hover.png"}
-                                width={100} height={100}
-                                className="w-full h-full object-fill" alt="choose us image" />
+                        <div className="w-16 h-16 rounded-md overflow-hidden border flex justify-center items-center bg-[#00000029]">
+                            <MdOutlineFlightTakeoff color="#FFF" size={40} />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-[#ECA740]  font-bold text-md">Exciting Deals</span>
@@ -47,10 +47,8 @@ const HomePageChooseUs = () => {
                         </div>
                     </div>
                     <div className="flex flex-row gap-5">
-                        <div className="w-16 h-16 rounded-md overflow-hidden">
-                            <Image src={"/Assets/images/Icons/Next Hover.png"}
-                                width={100} height={100}
-                                className="w-full h-full object-fill" alt="choose us image" />
+                        <div className="w-16 h-16 rounded-md overflow-hidden border flex justify-center items-center bg-[#00000029]">
+                            <GiForkKnifeSpoon color="#FFFFFF" size={40} />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-[#ECA740]  font-bold text-md">Pocket Friendly Pricing</span>
@@ -58,10 +56,8 @@ const HomePageChooseUs = () => {
                         </div>
                     </div>
                     <div className="flex flex-row gap-5">
-                        <div className="w-16 h-16 rounded-md overflow-hidden">
-                            <Image src={"/Assets/images/Icons/Next Hover.png"}
-                                width={100} height={100}
-                                className="w-full h-full object-fill" alt="choose us image" />
+                        <div className="w-16 h-16 rounded-md overflow-hidden border flex justify-center items-center bg-[#00000029]">
+                            <BsTelephone color="#FFF" size={35} />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-[#ECA740]  font-bold text-md">24/7 Support</span>

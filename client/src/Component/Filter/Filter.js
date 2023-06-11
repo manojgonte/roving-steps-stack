@@ -2,7 +2,7 @@ import { CheckOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import CheckboxComponent from "../Common/Checkbox/Checkbox";
 
-export default function Filters({ title, TourList }) {
+export default function Filters({ title, TourList, handleChecked }) {
 
     const [showFilterList, setShowFilterList] = useState(true);
 
@@ -21,7 +21,7 @@ export default function Filters({ title, TourList }) {
                 {
                     showFilterList && TourList.map((name, index) => {
                         return (
-                            <CheckboxComponent key={index} name={name} index={index} />
+                            <CheckboxComponent key={index} name={name} index={index} isChecked={handleChecked} />
                         )
                     })
                 }

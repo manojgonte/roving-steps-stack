@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { CheckOutlined } from "@ant-design/icons";
 import Checkbox from "react-custom-checkbox";
 
-export default function CheckboxComponent({ name, index }) {
-    const [isChecked, setIsChecked] = useState(false);
+export default function CheckboxComponent({ name, index, isChecked }) {
+    // const [isChecked, setIsChecked] = useState(false);
 
     return (
         <div className="py-1">
@@ -13,7 +13,8 @@ export default function CheckboxComponent({ name, index }) {
                 name={name + " " + index}
                 checked={isChecked}
                 onChange={(value, event) => {
-                    setIsChecked(value)
+                    // setIsChecked(value)
+                    isChecked(value, name)
                 }}
                 borderColor="#C6C6C6"
                 style={{ cursor: "pointer", color: 'black' }}

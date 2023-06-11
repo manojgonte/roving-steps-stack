@@ -13,6 +13,7 @@ export default function Tours() {
     const [i18nList, setI18nList] = useState([]);
     const [popularDestinations, setPopularDestinations] = useState([]);
     const [tourPackages, setTourPackages] = useState([]);
+    const [selectDestArr, setSelectDestArr] = useState(['Andaman', 'UK']);
 
     const getList = async () => {
         const list = await getDestinationList();
@@ -115,6 +116,11 @@ export default function Tours() {
         }
     ];
 
+    const handleChecked = (value, name) => {
+        setTourPackages(() => tourPackages?.filter(tour => tour?.name === name));
+        setPopularDestinations(() => popularDestinations?.filter(tour => tour?.name === name))
+    }
+
     return (
         <main className="bg-gradient-to-l from-cyan-200 to-white">
             <Header />
@@ -136,60 +142,6 @@ export default function Tours() {
                             Tours
                         </span>
                     </div>
-                    {/* <div className="w-11/12 h-9 border">
-                        <div className="bg-white w-full h-full rounded-3xl flex items-center">
-                            <div className="w-1/5 border-[#ECBF40] h-2/3 flex items-center rounded-l-3xl border-r-2 my-2 ml-2 pl-4 gap-1">
-                                <Image
-                                    src={"/Assets/images/icons/LocationDefault.svg"}
-                                    width={10}
-                                    height={10}
-                                    alt=""
-                                />
-                                <input placeholder="Location" className="p-1 rounded-l-3xl w-full  text-sm" />
-                            </div>
-                            <div className="w-1/6 border-[#ECBF40] h-2/3 flex items-center rounded-l-3xl border-r-2 my-2 ml-2 pl-4 gap-1">
-                                <Image
-                                    src={"/Assets/images/icons/DateDefault.svg"}
-                                    width={15}
-                                    height={15}
-                                    alt=""
-                                />
-                                <input placeholder="Check in" className="p-1 w-full  text-sm" />
-                            </div>
-                            <div className="w-1/6 border-[#ECBF40] h-2/3 flex items-center rounded-l-3xl border-r-2 my-2 ml-2 pl-4 gap-1">
-                                <Image
-                                    src={"/Assets/images/icons/DateDefault.svg"}
-                                    width={15}
-                                    height={15}
-                                    alt=""
-                                />
-                                <input placeholder="Check out" className="p-1 w-full  text-sm" />
-                            </div>
-                            <div className="w-1/6 border-[#ECBF40] h-2/3 flex items-center rounded-l-3xl border-r-2 my-2 ml-2 pl-4 gap-1">
-                                <Image
-                                    src={"/Assets/images/icons/DateDefault.svg"}
-                                    width={15}
-                                    height={15}
-                                    alt=""
-                                />
-                                <input placeholder="Adult" className="w-full p-1  text-sm" />
-                            </div>
-                            <div className="w-1/6 border-[#ECBF40] h-2/3 flex items-center rounded-l-3xl border-r-2 my-2 ml-2 pl-4 gap-1">
-                                <Image
-                                    src={"/Assets/images/icons/DateDefault.svg"}
-                                    width={15}
-                                    height={15}
-                                    alt=""
-                                />
-                                <input placeholder="Kids" className="w-full p-1  text-sm" />
-                            </div>
-                            <div className="w-1/6 h-full flex items-center pl-6 rounded-r-3xl hover:bg-[#ECBF40]">
-                                <button className="text-[#C6C6C6] hover:text-white  text-sm">
-                                    Search
-                                </button>
-                            </div>
-                        </div>
-                    </div> */}
                     <SearchFilter />
                 </div>
             </div>
@@ -204,14 +156,17 @@ export default function Tours() {
                     <Filters
                         title="Domestic Tours"
                         TourList={domesticList}
+                        // handleChecked={handleChecked}
                     />
                     <Filters
                         title="International Tours"
                         TourList={i18nList}
+                        // handleChecked={handleChecked}
                     />
                     <Filters
                         title="Special Tours"
                         TourList={i18nList}
+                        // handleChecked={handleChecked}
                     />
                 </div>
                 <div className="w-9/12 p-4 flex flex-col gap-4">
@@ -235,7 +190,7 @@ export default function Tours() {
                                 <div className="flex flex-row justify-between">
                                     {
                                         tourPackages?.length > 0 ?
-                                        tourPackages.map((data, index) => <Card key={index} cardDetails={data} />) :
+                                            tourPackages.map((data, index) => <Card key={index} cardDetails={data} />) :
                                             (
                                                 <div className="font-bold text-lg text-black">
                                                     No Destinations available
