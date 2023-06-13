@@ -2,8 +2,38 @@ import Image from "next/image";
 import Header from "../Header";
 import Footer from "../Footer";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Register() {
+    const [name, setName] = useState('');
+    const [contact, setContact] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setpassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [isTermsChecked, setIsTermsChecked] = useState('');
+
+    const signUp = (e) => {
+        e.preventDefault();
+        let isError = false;
+        let regexPhone = /^(0|91)?[6-9][0-9]{9}$/
+        // let regexPhone = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/
+
+        let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ // Refrence: https://www.w3resource.com/javascript/form/email-validation.php#:~:text=To%20get%20a%20valid%20email,%5D%2B)*%24%2F.
+        
+        name?.length > 2 ? isError = false : isError = true;
+        // contact?.length < 10 || contact?.length > 10 ? isError = true : isError = false;
+        regexPhone.test(contact) ? isError = true : isError = false;
+        regexEmail.test(email) ? isError = true : isError = false;
+        password === confirmPassword ? isError = false : isError = true
+
+        console.log(isError, regexPhone.test(contact), regexEmail.test(email), password === confirmPassword, name?.length > 2);
+        if(isError === false) {
+            console.log("Logged In succefully");
+        } else {
+            console.log("Logged In Failed");
+        }
+    }
+
     return (
         <main className="flex min-h-screen flex-col">
 
@@ -44,41 +74,41 @@ export default function Register() {
                                                 />
                                             </div>
 
-                                            <form>
+                                            <form onSubmit={signUp}>
                                                 <div className="mb-2">
                                                     <div className="mb-3">
-                                                        <label for="email" className="block text-sm font-semibold text-gray-800" >Name *</label>
-                                                        <input type="email" className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
+                                                        <label for="name" className="block text-sm font-semibold text-gray-800" >Name *</label>
+                                                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                     </div>
 
                                                     <div className="flex justify-between">
                                                         <div className="mb-3 mr-1">
-                                                            <label for="email" className="block text-sm font-semibold text-gray-800" >Contact *</label>
-                                                            <input type="email" className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
+                                                            <label for="contact" className="block text-sm font-semibold text-gray-800" >Contact *</label>
+                                                            <input type="" value={contact} onChange={(e) => setContact(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                         </div>
                                                         <div className="mb-3">
                                                             <label for="email" className="block text-sm font-semibold text-gray-800" >Email *</label>
-                                                            <input type="email" className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
+                                                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                         </div>
                                                     </div>
 
                                                     <div className="mb-3">
                                                         <label for="password" className="block text-sm font-semibold text-gray-800">Password *</label>
-                                                        <input type="password" className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
+                                                        <input type="password" value={password} onChange={(e) => setpassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                     </div>
 
                                                     <div className="mb-3">
-                                                        <label for="password" className="block text-sm font-semibold text-gray-800">Confirm Password *</label>
-                                                        <input type="password" className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
+                                                        <label for="confirm-password" className="block text-sm font-semibold text-gray-800">Confirm Password *</label>
+                                                        <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                     </div>
                                                 </div>
 
                                                 <div className="mb-12 pb-1 pt-1 text-center">
-                                                    <button className="bg-[#ECBF40] w-full h-10 p-3 flex items-center justify-center rounded-md  font-normal opacity-100 text-sm hover:shadow-lg">
+                                                    <button onClick={signUp} className="bg-[#ECBF40] w-full h-10 p-3 flex items-center justify-center rounded-md  font-normal opacity-100 text-sm hover:shadow-lg">
                                                         SIGN UP
                                                     </button>
                                                     <div className="flex mt-2">
-                                                        <input type="checkbox" className="ml-2" />
+                                                        <input type="checkbox" className="ml-2" onClick={(e) => setIsTermsChecked(() => !isTermsChecked)} />
                                                         <div className="text-sm text-black">&nbsp; I agree to <Link href="" className="text-[#ECBF40]">Terms of services</Link> and <Link href="" className="text-[#ECBF40]">Privacy Policy</Link></div>
                                                     </div>
                                                 </div>
