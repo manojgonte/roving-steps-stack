@@ -19,7 +19,7 @@ export default function Filters({ title, TourList, handleChecked }) {
             </div>
             <div className={`h-auto overflow-y-scroll`}>
                 {
-                    showFilterList && TourList.map((name, index) => {
+                    showFilterList && TourList?.map((name, index) => {
                         return (
                             <CheckboxComponent key={index} name={name} index={index} isChecked={handleChecked} />
                         )

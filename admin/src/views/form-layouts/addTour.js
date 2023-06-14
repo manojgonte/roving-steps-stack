@@ -99,12 +99,16 @@ const FormLayoutsSeparator = () => {
         formData.append('status', '0');
 
         // const userId = JSON.parse(localStorage.getItem("user"))._id;
-        let result = await fetch (`${BASE_URL}/tour/create/`, {
-            method: "POST",
-            body: formData,
-        });
-        result = await result.json();
-        console.warn(result);
+        try {
+            let result = await fetch (`${BASE_URL}/tour/create/`, {
+                method: "POST",
+                body: formData,
+            });
+            result = await result.json();
+            console.warn(result);
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
     }
     
     const ImgStyled = styled('img')(({ theme }) => ({

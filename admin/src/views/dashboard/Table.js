@@ -100,6 +100,7 @@ const DashboardTable = ({ tourList }) => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Tour ID</TableCell>
+                            <TableCell>Image</TableCell>
                             <TableCell>Tour Name</TableCell>
                             <TableCell>Tour Type</TableCell>
                             <TableCell>Tourist Count</TableCell>
@@ -113,6 +114,7 @@ const DashboardTable = ({ tourList }) => {
                         {tourList?.map((row, index) => (
                             <TableRow hover key={row.name} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
                                 <TableCell>{index+1}</TableCell>
+                                <TableCell><img src={`http://127.0.0.1:5000/uploads/${row?.image}`} height={50} alt="" /> </TableCell>
                                 <TableCell sx={{ py: theme => `${theme.spacing(0.5)} !important` }}>
                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <Typography sx={{ fontWeight: 500, fontSize: '0.875rem !important' }}>{row.name}</Typography>
@@ -120,9 +122,9 @@ const DashboardTable = ({ tourList }) => {
                                     </Box>
                                 </TableCell>
                                 <TableCell>{row.type}</TableCell>
-                                <TableCell>{"row.tourist"}</TableCell>
-                                <TableCell>{"1/1/2023"}</TableCell>
-                                <TableCell>{"1/1/2023"}</TableCell>
+                                <TableCell>NA</TableCell>
+                                <TableCell>{row?.from_date}</TableCell>
+                                <TableCell>{row?.end_date}</TableCell>
                                 <TableCell>
                                     <Chip
                                         label={row.status}

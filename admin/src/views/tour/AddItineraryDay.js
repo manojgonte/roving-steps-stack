@@ -23,15 +23,15 @@ const ButtonStyled = styled(Button)(({ theme }) => ({
 }))
 
 const AddItineraryDay = (props) => {
+    const [itinerary, setItinerary] = useState({place:'',activity:'',travelOption:'',description:'',stay:'',food:'',image:''});
 
-    const onChange = file => {
-        const reader = new FileReader()
-        const { files } = file.target
-        if (files && files.length !== 0) {
-            reader.onload = () => setImgSrc(reader.result)
-            reader.readAsDataURL(files[0])
-        }
-    }
+    const [place, setPlace] = useState();
+    const [activity, setActivity] = useState();
+    const [travelOption, setTravelOption] = useState();
+    const [description, setDescription] = useState();
+    const [stay, setStay] = useState();
+    const [food, setFood] = useState();
+    const [image, setImage] = useState();
 
     return (
         <>
@@ -43,23 +43,27 @@ const AddItineraryDay = (props) => {
                 />
             </Grid>
             <Grid item xs={12} sm={4}>
-                <TextField fullWidth label='Place to Visit' placeholder='Enter Place to Visit' />
+                <TextField fullWidth label='Place to Visit' value={place} onChange={(e)=>setPlace(e.target.value)} placeholder='Enter Place to Visit' />
             </Grid>
             <Grid item xs={12} sm={4}>
-                <TextField fullWidth type='text' label='Activity of the Day' placeholder='Enter Activity' />
+                <TextField fullWidth type='text' label='Activity of the Day' value={activity} onChange={(e)=>setActivity(e.target.value)} placeholder='Enter Activity' />
             </Grid>
             <Grid item xs={12} sm={4}>
                 <FormControl fullWidth>
                     <InputLabel id='form-layouts-separator-select-label'>Travel Option</InputLabel>
                     <Select
                         label='Travel Option'
+                        value={travelOption} 
+                        onChange={(e)=>setTravelOption(e.target.value)}
                         defaultValue=''
                         id='form-layouts-separator-select'
                         labelId='form-layouts-separator-select-label'>
-                        <MenuItem value='UK'>UK</MenuItem>
-                        <MenuItem value='USA'>USA</MenuItem>
-                        <MenuItem value='Australia'>Australia</MenuItem>
-                        <MenuItem value='Germany'>Germany</MenuItem>
+                        <MenuItem value='Bike'>Bike</MenuItem>
+                        <MenuItem value='Private Car'>Private Car</MenuItem>
+                        <MenuItem value='Common Vehicle'>Common Vehicle</MenuItem>
+                        <MenuItem value='Train'>Train</MenuItem>
+                        <MenuItem value='Aeroplane'>Aeroplane</MenuItem>
+                        <MenuItem value='Cruite'>Cruite</MenuItem>
                     </Select>
                 </FormControl>
             </Grid>
@@ -67,16 +71,18 @@ const AddItineraryDay = (props) => {
                 <TextField
                     fullWidth
                     multiline
+                    value={description} 
+                    onChange={(e)=>setDescription(e.target.value)}
                     label='Overview'
                     minRows={2}
                     placeholder='Enter Overview'
                 />
             </Grid>
             <Grid item xs={12} sm={4}>
-                <TextField fullWidth type='text' label='Stay' placeholder='Enter Stay' />
+                <TextField fullWidth type='text' label='Stay' value={stay} onChange={(e)=>setStay(e.target.value)} placeholder='Enter Stay' />
             </Grid>
             <Grid item xs={12} sm={4}>
-                <TextField fullWidth type='text' label='Food' placeholder='Enter Food' />
+                <TextField fullWidth type='text' label='Food' value={food} onChange={(e)=>setFood(e.target.value)} placeholder='Enter Food' />
             </Grid>
             <Grid item xs={12} sm={4}>
                 <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
@@ -84,10 +90,10 @@ const AddItineraryDay = (props) => {
                     <input
                         hidden
                         type='file'
-                        onChange={onChange}
+                        value={image}
+                        onChange={(e)=>setImage(e.target.files[0])}
                         accept='image/png, image/jpeg'
                         id='account-settings-upload-image'
-                        startIcon={<FileUpload />}
                     />
                 </ButtonStyled>
             </Grid>

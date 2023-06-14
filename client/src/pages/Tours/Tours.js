@@ -21,15 +21,17 @@ export default function Tours() {
         setI18nList(list?.international);
     }
 
-    const tourList = async () => {
+    const tourListFun = async () => {
         const tourList = await getTourList();
         setPopularDestinations(tourList?.popDest);
         setTourPackages(tourList?.tourPackage);
+        console.log(tourList)
+
     }
 
     useEffect(() => {
         getList();
-        tourList();
+        tourListFun();
     }, []);
 
     const cards = [
@@ -198,7 +200,7 @@ export default function Tours() {
                                             )
                                     }
                                 </div>
-                                <div className="flex flex-row justify-between">
+                                {/* <div className="flex flex-row justify-between">
                                     {
                                         popularDestinations?.length > 0 ?
                                             popularDestinations?.map((data, index) => <Card key={index} cardDetails={data} />) :
@@ -208,7 +210,7 @@ export default function Tours() {
                                                 </div>
                                             )
                                     }
-                                </div>
+                                </div> */}
                             </div>
                         </div>
 
@@ -228,7 +230,7 @@ export default function Tours() {
                                             )
                                     }
                                 </div>
-                                <div className="flex flex-row justify-between">
+                                {/* <div className="flex flex-row justify-between">
                                     {
                                         tourPackages?.length > 0 ?
                                             tourPackages?.map((data, index) => <Card key={index} cardDetails={data} />) :
@@ -238,7 +240,7 @@ export default function Tours() {
                                                 </div>
                                             )
                                     }
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

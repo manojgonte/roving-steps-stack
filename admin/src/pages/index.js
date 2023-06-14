@@ -26,69 +26,53 @@ const Dashboard = () => {
     return (
         <ApexChartWrapper>
             <Grid container spacing={6}>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={12}>
                     <Trophy />
-                </Grid>
-                <Grid item xs={12} md={8}>
-                    <StatisticsCard />
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                    <WeeklyOverview />
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                    <TotalEarning />
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                </Grid> 
+                <Grid item xs={12} md={12} lg={12}>
                     <Grid container spacing={6}>
-                        <Grid item xs={6}>
+                        <Grid item xs={3}>
                             <CardStatisticsVerticalComponent
-                                stats='$25.6k'
                                 icon={<Poll />}
                                 color='success'
+                                title='Total Enquiries'
+                                stats='25'
                                 trendNumber='+42%'
-                                title='Total Profit'
                                 subtitle='Weekly Profit'
                             />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={3}>
                             <CardStatisticsVerticalComponent
-                                stats='$78'
-                                title='Refunds'
-                                trend='negative'
-                                color='secondary'
-                                trendNumber='-15%'
-                                subtitle='Past Month'
                                 icon={<CurrencyUsd />}
+                                title='Total Tours'
+                                color='secondary'
+                                stats='78'
+                                trendNumber='15%'
+                                subtitle='Past Month'
                             />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={3}>
                             <CardStatisticsVerticalComponent
-                                stats='862'
+                                icon={<BriefcaseVariantOutline />}
+                                title='Completed Tours'
+                                stats='14'
                                 trend='negative'
                                 trendNumber='-18%'
-                                title='New Project'
                                 subtitle='Yearly Project'
-                                icon={<BriefcaseVariantOutline />}
                             />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={3}>
                             <CardStatisticsVerticalComponent
-                                stats='15'
+                                icon={<HelpCircleOutline />}
                                 color='warning'
+                                title='Total Users'
+                                stats='15'
                                 trend='negative'
                                 trendNumber='-18%'
                                 subtitle='Last Week'
-                                title='Sales Queries'
-                                icon={<HelpCircleOutline />}
                             />
                         </Grid>
                     </Grid>
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                    <SalesByCountries />
-                </Grid>
-                <Grid item xs={12} md={12} lg={8}>
-                    <DepositWithdraw />
                 </Grid>
             </Grid>
         </ApexChartWrapper>
