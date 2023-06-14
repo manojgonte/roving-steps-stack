@@ -10,7 +10,6 @@ export const getDestinationList = async () => {
     }
 }
 export const getTourList = async () => {
-    console.log("dsfghjkl")
     const data = await fetch(BASE_URL + '/tour');
     const result = await data.json();
     const res = result?.data;

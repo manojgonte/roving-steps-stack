@@ -2,8 +2,42 @@ import Image from "next/image";
 import Footer from "../Footer";
 import Header from "../Header";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const router = useRouter();
+    
+    const signIn = async (e) => {
+        e.preventDefault();
+
+        let body = {
+            username: email,
+            password: password
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(body),
+            redirect: 'follow'
+        };
+
+        const data = await fetch('http://localhost:5000/login/user', requestOptions);
+        const result = await data.json();
+
+        if(result?.statusCode === 200 && result?.status === "success") {
+            router.push("/")
+        } else {
+            console.log("Not able to register");
+        }
+    }
+
     return (
         <main className="flex min-h-screen flex-col">
 
@@ -48,17 +82,17 @@ export default function Login() {
                                                 <div className="mb-2">
                                                     <div className="mb-3">
                                                         <label for="email" className="block text-sm font-semibold text-gray-800" >Email *</label>
-                                                        <input type="email" className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
+                                                        <input type="email" onChange={(e) => setEmail(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                     </div>
 
                                                     <div className="mb-3">
                                                         <label for="password" className="block text-sm font-semibold text-gray-800">Password *</label>
-                                                        <input type="password" className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
+                                                        <input type="password" onChange={(e) => setPassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                     </div>
                                                 </div>
 
                                                 <div className="mb-12 pb-1 pt-1 text-center">
-                                                    <button className="bg-[#ECBF40] w-full h-10 p-3 flex items-center justify-center rounded-md  font-normal opacity-100 text-sm hover:shadow-lg">
+                                                    <button onClick={signIn} className="bg-[#ECBF40] w-full h-10 p-3 flex items-center justify-center rounded-md  font-normal opacity-100 text-sm hover:shadow-lg">
                                                         SIGN IN
                                                     </button>
                                                     <div className="flex mt-2">

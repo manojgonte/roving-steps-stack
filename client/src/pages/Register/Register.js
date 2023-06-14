@@ -3,6 +3,8 @@ import Header from "../Header";
 import Footer from "../Footer";
 import Link from "next/link";
 import { useState } from "react";
+import { BASE_URL } from "../../../config";
+import { useRouter } from "next/router";
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -10,27 +12,72 @@ export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setpassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [isTermsChecked, setIsTermsChecked] = useState('');
+    const [isTermsChecked, setIsTermsChecked] = useState(false);
 
-    const signUp = (e) => {
+    const [errorMessage, setErrorMessage] = useState('');
+    const router = useRouter();
+
+    const signUp = async (e) => {
         e.preventDefault();
-        let isError = false;
-        let regexPhone = /^(0|91)?[6-9][0-9]{9}$/
-        // let regexPhone = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/
+        setErrorMessage("");
+
+        if (name?.length < 3) {
+            setErrorMessage("name should be more than 3 characters");
+            return
+        }
+
+        let regexPhone = /^(0|91)?[6-9][0-9]{9}$/;
+        if (!regexPhone.test(contact)) {
+            setErrorMessage("Contact number is not valid");
+            return
+        }
 
         let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ // Refrence: https://www.w3resource.com/javascript/form/email-validation.php#:~:text=To%20get%20a%20valid%20email,%5D%2B)*%24%2F.
-        
-        name?.length > 2 ? isError = false : isError = true;
-        // contact?.length < 10 || contact?.length > 10 ? isError = true : isError = false;
-        regexPhone.test(contact) ? isError = true : isError = false;
-        regexEmail.test(email) ? isError = true : isError = false;
-        password === confirmPassword ? isError = false : isError = true
+        if (!regexEmail.test(email)) {
+            setErrorMessage("Email is not valid!");
+            return
+        }
 
-        console.log(isError, regexPhone.test(contact), regexEmail.test(email), password === confirmPassword, name?.length > 2);
-        if(isError === false) {
-            console.log("Logged In succefully");
+        if (password?.length < 6) {
+            setErrorMessage("password should be atleast 5 characters long");
+            return
+        }
+
+        if (password !== confirmPassword) {
+            setErrorMessage("Password & confirm password do not match");
+            return
+        }
+
+        if (isTermsChecked === false) {
+            setErrorMessage("Please agree to terms & messages");
+            return
+        }
+
+        /// API call
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let user_data = {
+            name: name,
+            contact: contact,
+            email: email,
+            password: password,
+            isTermsChecked: isTermsChecked
+        };
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(user_data),
+            redirect: 'follow'
+        };
+        const data = await fetch('http://localhost:5000/registration', requestOptions);
+        const result = await data.json();
+
+        if(result?.statusCode === 200 && result?.status === "success") {
+            router.push("/Login")
         } else {
-            console.log("Logged In Failed");
+            console.log("Not able to register");
         }
     }
 
@@ -52,8 +99,8 @@ export default function Register() {
                                         <div className="px-4 py-6 md:mx-6 md:p-12">
                                             <div className="justify-center">
                                                 <Link href="/">
-                                                <img src={"/Assets/images/Logo/Roving Steps Logo white.png"} style={{ width: 300 }} />
-                                                </Link>    
+                                                    <img src={"/Assets/images/Logo/Roving Steps Logo white.png"} style={{ width: 300 }} />
+                                                </Link>
                                             </div>
                                             <p className="text-sm text-center text-white">
                                                 {`Explore the huge world and enjoy it's beauty`}
@@ -103,6 +150,9 @@ export default function Register() {
                                                     </div>
                                                 </div>
 
+                                                <div className="w-full text-red-600">
+                                                    {errorMessage}
+                                                </div>
                                                 <div className="mb-12 pb-1 pt-1 text-center">
                                                     <button onClick={signUp} className="bg-[#ECBF40] w-full h-10 p-3 flex items-center justify-center rounded-md  font-normal opacity-100 text-sm hover:shadow-lg">
                                                         SIGN UP
