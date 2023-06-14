@@ -27,3 +27,8 @@ export const USER_EXIST = "SELECT id, status, username FROM users WHERE username
 
 // destinations
 export const GET_DESTINATIONS = "SELECT * FROM destination";
+
+// client user registration
+export const REGISTRATION = "INSERT INTO client_user (name, contact, email, password) VALUES (?,?,?,?)";
+
+export const CLIENT_USER_EXIST = "SELECT * FROM client_user WHERE email=? AND password=?";
