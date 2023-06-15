@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 const router = express.Router();
-import { getAllTours, getTourWithID, createTour, getDestList } from '../Controller/tour.js';
+import { getAllTours, getTourWithID, createTour, getDestList, getFilteredList } from '../Controller/tour.js';
 import { createTourValidation } from '../Schema/tour-schema.js';
 
 const upload = multer({
@@ -45,7 +45,7 @@ router.get("/tour", async (req, res) => {
 router.get("/tour/get/id/:id", async (req, res) => {
 
     try {
-        const result = await getTourWithID(req?.body?.id);
+        const result = await getTourWithID(req?.params?.id);
         res.status(200).send(
             JSON.stringify({
                 message: "All tours fetched succefully",
@@ -133,5 +133,28 @@ router.get('/destinationList/get', async (req, res) => {
             statusCode: 404
         })
     }    
+});
+
+router.post('/tour/filter', async (req, res) => {
+    let type = req?.body?.type;
+    let filterOptions = req?.body?.list;
+
+    try {
+        const data = await getFilteredList(type, filterOptions);
+        if(data) {
+            res.status(200).json({
+                status: "success",
+                statusCode: 200,
+                message: "Filtered list fetched succefully",
+                data: data
+            })
+        }
+    } catch (error) {
+        res.status(404).json({
+            error: error,
+            status: "fail",
+            statusCode: 404
+        });
+    }
 })
 export default router;

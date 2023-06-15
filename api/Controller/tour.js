@@ -1,9 +1,9 @@
-import { CREATE_TOUR, DELETE_TOUR, GET_DESTINATIONS, GET_TOURS, GET_TOURS_WITH_ID } from "../Query/userQueries.js";
+import { CREATE_TOUR, DELETE_TOUR, GET_DESTINATIONS, GET_TOURS, GET_TOURS_WITH_ID, TOUR_FILTER } from "../Query/userQueries.js";
 import { pool } from "../connection/database.js";
 
 const database = pool.promise();
 
-export const getAllTours = async() => {
+export const getAllTours = async () => {
     const data = await database.query(GET_TOURS);
     return data[0];
 }
@@ -29,11 +29,11 @@ export const getDestList = async () => {
     let domestic = [];
 
     data[0]?.map((dest) => {
-        if(dest?.type === "Domestic") {
+        if (dest?.type === "Domestic") {
             domestic.push(dest);
         }
 
-        if(dest?.type === "International") {
+        if (dest?.type === "International") {
             international.push(dest);
         }
     })
@@ -41,4 +41,9 @@ export const getDestList = async () => {
         international: international,
         domestic: domestic
     };
+}
+
+export const getFilteredList = async (type, filterOptions) => {
+    const data = await database.query(TOUR_FILTER, [type, filterOptions]);
+    return data[0]
 }
