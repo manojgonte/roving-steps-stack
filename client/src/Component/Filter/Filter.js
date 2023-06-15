@@ -2,7 +2,7 @@ import { CheckOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import CheckboxComponent from "../Common/Checkbox/Checkbox";
 
-export default function Filters({ title, TourList, handleChecked }) {
+export default function Filters({ title, TourList, handleItemClick, selectedItems }) {
 
     const [showFilterList, setShowFilterList] = useState(true);
 
@@ -13,19 +13,31 @@ export default function Filters({ title, TourList, handleChecked }) {
                     <span className="text-black">{title}</span>
                 </div>
                 <div onClick={() => setShowFilterList(() => !showFilterList)}>
-                    {showFilterList ? <UpOutlined /> :
-                        <DownOutlined />}
+                    {showFilterList ? <UpOutlined color="#000" className="text-black" /> :
+                        <DownOutlined color="#000" className="text-black" />}
                 </div>
             </div>
-            <div className={`h-auto overflow-y-scroll`}>
-                {
-                    showFilterList && TourList?.map((name, index) => {
-                        return (
-                            <CheckboxComponent key={index} name={name} index={index} isChecked={handleChecked} />
-                        )
-                    })
-                }
-            </div>
-        </div>
+            {/* <div className={`h-auto overflow-y-scroll`}> */}
+                < ul className="h-auto overflow-y-scroll">
+                    {
+                        showFilterList && TourList?.map((name, index) => {
+                            return (
+                                // <CheckboxComponent key={index} name={name} index={index} isChecked={handleChecked} />
+                                <li key={index + ".-"}>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedItems.includes(name)}
+                                            onChange={() => handleItemClick(name)}
+                                        />
+                                        <span className="ml-2 text-black">{name}</span>
+                                    </label>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            {/* </div> */}
+        </div >
     )
 }

@@ -7,10 +7,21 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Keyboard, Pagination, Navigation } from "swiper";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { getTourList } from "@/Services/commonServices";
 
 const PopularDestinations = () => {
     const swiperRef = useRef();
+    const [popularDestinations, setPopularDestinations] = useState([]);
+
+    const tourListFun = async () => {
+        const tourList = await getTourList();
+        setPopularDestinations(tourList?.popDest);
+    }
+
+    useEffect(() => {
+        tourListFun();
+    }, []);
 
     const cards = [
         {
@@ -73,10 +84,10 @@ const PopularDestinations = () => {
                         swiperRef.current = swiper;
                     }}
                 >
-                    {cards.map(
+                    {popularDestinations?.length > 0 && popularDestinations?.map(
                         (card, index) => {
                             return (
-                                <SwiperSlide key={index}>
+                                <SwiperSlide key={index + "._"}>
                                     <Card
                                         cardDetails={card}
                                     />

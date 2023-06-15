@@ -7,12 +7,15 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Keyboard, Pagination, Navigation } from "swiper";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import PopularTourCard from "../Common/PopularTourCard";
+import { getTourList } from "@/Services/commonServices";
 
 const HomeTourPackage = () => {
 
     const swiperRef = useRef();
+    const [tourPackages, setTourPackages] = useState([]);
+
     const cards = [
         {
             img: "/Assets/images/common/Hexagone_3.jpg",
@@ -94,6 +97,14 @@ const HomeTourPackage = () => {
         }
     ];
 
+    const tourListFun = async () => {
+        const tourList = await getTourList();
+        setTourPackages(tourList?.tourPackage);
+    }
+
+    useEffect(() => {
+        tourListFun();
+    }, []);
     return (
         <div className="flex flex-col w-full h-[700px] px-16 py-5 gap-8">
             <div className="text-2xl font-bold text-[#1B2C60] text-center w-full py-5">
@@ -119,7 +130,7 @@ const HomeTourPackage = () => {
                         swiperRef.current = swiper;
                     }}
                 >
-                    {cards.map(
+                    {tourPackages.map(
                         (card, index) => {
                             return (
                                 <SwiperSlide key={index}>

@@ -5,7 +5,7 @@ import Filters from "@/Component/Filter/Filter";
 import Card from "@/Component/Common/CardComponents/Card";
 import SearchFilter from "@/Component/Common/SearchFilter/SearchFilter";
 import { useEffect, useState } from "react";
-import { getDestinationList, getTourList } from "@/Services/commonServices";
+import { getDestinationList, getFilterTourList, getTourList } from "@/Services/commonServices";
 
 export default function Tours() {
 
@@ -13,7 +13,49 @@ export default function Tours() {
     const [i18nList, setI18nList] = useState([]);
     const [popularDestinations, setPopularDestinations] = useState([]);
     const [tourPackages, setTourPackages] = useState([]);
-    const [selectDestArr, setSelectDestArr] = useState(['Andaman', 'UK']);
+    const [selectedDomesticItems, setSelectedDomesticItems] = useState([]);
+    const [selectedI18nItems, setSelected18nItems] = useState([]);
+    const [selectedSTItems, setSelectedSTItems] = useState([]);
+
+    // console.log()
+    const handleDomesticItemClick = (item) => {
+        setSelectedSTItems([]);
+        setSelected18nItems([]);
+        // Check if the item is already selected
+        if (selectedDomesticItems.includes(item)) {
+            // Item is already selected, remove it from the array
+            setSelectedDomesticItems(selectedDomesticItems.filter((selectedItem) => selectedItem !== item));
+        } else {
+            // Item is not selected, add it to the array
+            setSelectedDomesticItems([...selectedDomesticItems, item]);
+        }
+    };
+
+    const handleI18nItemClick = (item) => {
+        setSelectedDomesticItems([]);
+        setSelectedSTItems([]);
+        // Check if the item is already selected
+        if (selectedI18nItems.includes(item)) {
+            // Item is already selected, remove it from the array
+            setSelected18nItems(selectedI18nItems.filter((selectedItem) => selectedItem !== item));
+        } else {
+            // Item is not selected, add it to the array
+            setSelected18nItems([...selectedI18nItems, item]);
+        }
+    };
+
+    const handleSpecialItemClick = (item) => {
+        setSelectedDomesticItems([]);
+        setSelected18nItems([]);
+        // Check if the item is already selected
+        if (selectedSTItems.includes(item)) {
+            // Item is already selected, remove it from the array
+            setSelectedSTItems(selectedSTItems.filter((selectedItem) => selectedItem !== item));
+        } else {
+            // Item is not selected, add it to the array
+            setSelectedSTItems([...selectedSTItems, item]);
+        }
+    };
 
     const getList = async () => {
         const list = await getDestinationList();
@@ -25,8 +67,6 @@ export default function Tours() {
         const tourList = await getTourList();
         setPopularDestinations(tourList?.popDest);
         setTourPackages(tourList?.tourPackage);
-        console.log(tourList)
-
     }
 
     useEffect(() => {
@@ -118,10 +158,29 @@ export default function Tours() {
         }
     ];
 
-    const handleChecked = (value, name) => {
-        setTourPackages(() => tourPackages?.filter(tour => tour?.name === name));
-        setPopularDestinations(() => popularDestinations?.filter(tour => tour?.name === name))
+    const filterList = async (filterList) => {
+        const tourList = await getFilterTourList(filterList);
+        console.log(tourList);
+        setPopularDestinations(tourList?.popDest);
+        setTourPackages(tourList?.tourPackage);
     }
+
+    useEffect(() => {
+
+        var filterOptions = {};
+        if(selectedDomesticItems.length > 0) filterOptions = { list: selectedDomesticItems, type: "domestic" };
+        if(selectedI18nItems.length > 0) filterOptions = { list: selectedI18nItems, type: "international" };
+        if(selectedSTItems?.length > 0) filterOptions = { list: selectedSTItems, type: "special" };
+
+        if (filterOptions?.list?.length > 0) {
+            filterList(filterOptions)
+        }
+    }, [
+        selectedDomesticItems,
+        selectedI18nItems,
+        selectedSTItems
+    ])
+
 
     return (
         <main className="bg-gradient-to-l from-cyan-200 to-white">
@@ -151,24 +210,27 @@ export default function Tours() {
                 <div className="w-1/4 p-4 flex flex-col gap-4">
                     <div className="w-full flex justify-end items-center">
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
-                            320 Tour Options
+                            {domesticList?.length + i18nList?.length} Tour Options
                         </button>
                     </div>
                     {/* Filter Section */}
                     <Filters
                         title="Domestic Tours"
                         TourList={domesticList}
-                        // handleChecked={handleChecked}
+                        handleItemClick={handleDomesticItemClick}
+                        selectedItems={selectedDomesticItems}
                     />
                     <Filters
                         title="International Tours"
                         TourList={i18nList}
-                        // handleChecked={handleChecked}
+                        handleItemClick={handleI18nItemClick}
+                        selectedItems={selectedI18nItems}
                     />
                     <Filters
                         title="Special Tours"
                         TourList={i18nList}
-                        // handleChecked={handleChecked}
+                        handleItemClick={handleSpecialItemClick}
+                        selectedItems={selectedSTItems}
                     />
                 </div>
                 <div className="w-9/12 p-4 flex flex-col gap-4">
@@ -189,10 +251,10 @@ export default function Tours() {
                                 <span className="text-2xl  font-medium text-black">Popular Destinations</span>
                             </div>
                             <div className="flex flex-col gap-4">
-                                <div className="flex flex-row justify-between">
+                                <div className="grid grid-cols-3 gap-4">
                                     {
-                                        tourPackages?.length > 0 ?
-                                            tourPackages.map((data, index) => <Card key={index} cardDetails={data} />) :
+                                        popularDestinations?.length > 0 ?
+                                            popularDestinations.map((data, index) => <Card key={index} cardDetails={data} />) :
                                             (
                                                 <div className="font-bold text-lg text-black">
                                                     No Destinations available
@@ -200,17 +262,6 @@ export default function Tours() {
                                             )
                                     }
                                 </div>
-                                {/* <div className="flex flex-row justify-between">
-                                    {
-                                        popularDestinations?.length > 0 ?
-                                            popularDestinations?.map((data, index) => <Card key={index} cardDetails={data} />) :
-                                            (
-                                                <div className="font-bold text-lg text-black">
-                                                    No Destinations available
-                                                </div>
-                                            )
-                                    }
-                                </div> */}
                             </div>
                         </div>
 
@@ -219,7 +270,7 @@ export default function Tours() {
                                 <span className="text-2xl  font-medium text-black">Popular Tour Packages</span>
                             </div>
                             <div className="flex flex-col gap-4">
-                                <div className="flex flex-row justify-between">
+                                <div className="grid grid-cols-3 gap-4">
                                     {
                                         tourPackages?.length > 0 ?
                                             tourPackages?.map((data, index) => <Card key={index} cardDetails={data} />) :
@@ -230,17 +281,6 @@ export default function Tours() {
                                             )
                                     }
                                 </div>
-                                {/* <div className="flex flex-row justify-between">
-                                    {
-                                        tourPackages?.length > 0 ?
-                                            tourPackages?.map((data, index) => <Card key={index} cardDetails={data} />) :
-                                            (
-                                                <div className="font-bold text-lg text-black">
-                                                    No Destinations available
-                                                </div>
-                                            )
-                                    }
-                                </div> */}
                             </div>
                         </div>
                     </div>
