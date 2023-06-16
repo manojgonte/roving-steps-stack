@@ -41,7 +41,7 @@ const Card = (props) => {
                     <div className=" font-bold text-lg pr-3 text-black">
                         {name}
                     </div>
-                    {!seeMore && <div className=" font-normal text-sm">
+                    {!seeMore && <div className=" font-normal text-sm text-black">
                         5N/6D
                     </div>}
                 </div>
@@ -56,18 +56,18 @@ const Card = (props) => {
                     {`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi nulla voluptate nam placeat minus ducimus. Tenetur quasi, harum illum sapiente dolorem voluptas, praesentium commodi quisquam aliquam quas, voluptatum animi ullam!`}
                 </div>}
                 {!seeMore &&
-                    <div className=" flex flex-col gap-3">
+                    <div className=" flex flex-col gap-3 text-black">
                         <div>
                             {stars} Stars
                         </div>
-                        <div className="  font-extrabold text-xs">
+                        <div className="  font-extrabold text-xs text-black">
                             4 Stay | Meal | Siteseeing | Private Transport | Visa
                         </div>
                         <div>
                             <div className="  font-bold text-xs">Starting from</div>
                             {cost}
                         </div>
-                        <div>{note}</div>
+                        <div className="text-[#000000] text-xs h-10 overflow-hidden">{note}</div>
                     </div>
                 }
                 {seeMore && <div className=" text-[#27A5BF] text-xs"><Link href={'/TourDetail/' + id}>See more...</Link></div>}

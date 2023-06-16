@@ -16,10 +16,7 @@ const HomePageTestimonial = () => {
     return (
         <div className="w-full h-[600px] flex flex-col justify-center items-center bg-white px-32 py-12 ">
             <div className="w-full h-full flex justify-center items-center">
-                {/* <Image src={"/Assets/images/double-quotes.png"}
-                    width={100} height={100}
-                    className="w-20 h-16 object-center"
-                    alt="Sayings" /> */}<ImQuotesLeft color="#1B2C60" size={50} />
+                <ImQuotesLeft color="#1B2C60" size={50} />
             </div>
             <div className="w-full h-10 mt-4 flex justify-center items-center pb-4">
                 <span className="text-[#1B2C60] text-2xl font-bold ">What traveler are saying about us?</span>

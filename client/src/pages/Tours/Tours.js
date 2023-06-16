@@ -160,13 +160,11 @@ export default function Tours() {
 
     const filterList = async (filterList) => {
         const tourList = await getFilterTourList(filterList);
-        console.log(tourList);
         setPopularDestinations(tourList?.popDest);
         setTourPackages(tourList?.tourPackage);
     }
 
     useEffect(() => {
-
         var filterOptions = {};
         if(selectedDomesticItems.length > 0) filterOptions = { list: selectedDomesticItems, type: "domestic" };
         if(selectedI18nItems.length > 0) filterOptions = { list: selectedI18nItems, type: "international" };

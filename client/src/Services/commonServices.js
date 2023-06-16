@@ -38,6 +38,8 @@ export const getTourList = async () => {
                     id: tour?.id,
                     img: tour?.image,
                     name: tour?.name,
+                    days: tour?.days,
+                    nights: tour?.nights,
                     stars: 4,
                     facility: "",
                     cost: tour?.adult_price,
