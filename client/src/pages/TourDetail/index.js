@@ -1,3 +1,3 @@
-import TourDetail from "./TourDetail";
+import TourDetail from "./[TourID]";
 
 export default TourDetail

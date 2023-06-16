@@ -13,6 +13,8 @@ export const CREATE_TOUR = "INSERT INTO `tours`(`name`, `image`, `type`, `destin
 
 export const DELETE_TOUR = "DELETE FROM tours WHERE id=?";
 
+export const TOUR_FILTER = "SELECT * FROM tours WHERE type=? AND destination IN (?)";
+
 // Tour - Itinenrary Queries
 export const CREATE_TOUR_ITINERARY = "INSERT INTO tour_itinerary (tour_id, title, day, description, activity, stay, food, status, places_to_visit, travel, image, overview, travel_options) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 

@@ -20,7 +20,7 @@ const PopularTourCard = (props) => {
             <div className="w-52 h-72 p-3 bg-white rounded-md ">
                 <div className={`w-full h-full relative rounded-md overflow-hidden`}>
                     <Image
-                        src={img}
+                        src={"/Assets/images/common/Hexagone_1.jpg"}
                         fill
                         style={{
                             width: "100%",
@@ -63,7 +63,7 @@ const PopularTourCard = (props) => {
                         <div className="flex flex-col gap-0">
                             <span className="font-bold text-xs">Starting from</span>
                             <span className="font-bold text-lg text-[#2DAAE1]">{cost}</span>
-                            <span className="text-[#C6C6C6] text-xs">{note}</span>
+                            <span className="text-[#C6C6C6] text-xs h-10 overflow-hidden">{note}</span>
                         </div>
                     </div>
                 }

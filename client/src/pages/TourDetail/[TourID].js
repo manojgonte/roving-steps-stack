@@ -12,6 +12,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import SearchFilter from "@/Component/Common/SearchFilter/SearchFilter";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function TourDetail() {
 
@@ -41,7 +43,18 @@ export default function TourDetail() {
             food: "Breakfast | Lunch | Dinner",
         }
     ];
+    const router = useRouter();
 
+    const tourDetails = async (id) => {
+        console.log(id)
+        // const data = await getTourDetails(id);
+        // console.log(data);
+    }
+
+    useEffect(() => {
+      tourDetails(router?.query?.TourID)
+    }, [router?.query?.TourID]);
+    
     return (
         <main className="bg-white" style={{backgroundImage:'url(Assets/images/elements/bg_element.png)', backgroundPosition:'center'}}>
             <Header />
