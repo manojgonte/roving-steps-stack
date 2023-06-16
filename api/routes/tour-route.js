@@ -45,7 +45,7 @@ router.get("/tour", async (req, res) => {
 router.get("/tour/get/id/:id", async (req, res) => {
 
     try {
-        const result = await getTourWithID(req?.body?.id);
+        const result = await getTourWithID(req?.params?.id);
         res.status(200).send(
             JSON.stringify({
                 message: "All tours fetched succefully",

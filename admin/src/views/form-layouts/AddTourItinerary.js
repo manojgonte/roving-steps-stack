@@ -22,6 +22,7 @@ import BasicTourInfo from '../tour/BasicTourInfo'
 import AddItineraryDay from '../tour/AddItineraryDay'
 
 import { BASE_URL } from 'src/config'
+import { useEffect } from 'react'
 
 const ButtonStyled = styled(Button)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -30,8 +31,9 @@ const ButtonStyled = styled(Button)(({ theme }) => ({
     }
 }))
 
-const FormLayoutsSeparator = () => {
+const FormLayoutsSeparator = ({tourId}) => {
     // ** States
+    const [tourDetails, setTourDetails] = useState('');
     const [itinerary, setItinerary] = useState({ place: '', activity: '', travelOption: '', description: '', stay: '', food: '', image: '' });
     const [formValues, setFormValues] = useState([{ place: '', activity: '', travelOption: '', description: '', stay: '', food: '', image: '' }])
 
@@ -67,6 +69,18 @@ const FormLayoutsSeparator = () => {
         }
     }
 
+    useEffect(()=>{
+        getTourBasicDetails();
+        console.log('loaded');
+    }, []);
+
+    const getTourBasicDetails = async () => {
+        let result = await fetch(`${BASE_URL}/tour/get/id/${tourId}`);
+        result = await result.json();
+        console.log(result.data[0]);
+        setTourDetails(result.data[0]);
+    }
+
     return (
         <Card>
             {/* <form>
@@ -98,7 +112,7 @@ const FormLayoutsSeparator = () => {
                                 Tour Details
                             </Typography>
 
-                            <BasicTourInfo />
+                            <BasicTourInfo tourDetails={tourDetails} />
 
                             <Divider sx={{ marginTop: 6.5, marginBottom: 6.75 }} />
                         </Grid>
@@ -108,6 +122,8 @@ const FormLayoutsSeparator = () => {
                             </Typography>
                         </Grid>
                     </Grid>
+
+                    {/* {Array.from({ length: tourDetails?.days }, (_, index) => ( */}
 
                     {formValues.map((element, index) => (
                         <Grid container spacing={5} key={index}>

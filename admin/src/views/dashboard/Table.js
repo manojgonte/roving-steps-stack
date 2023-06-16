@@ -9,6 +9,7 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import Typography from '@mui/material/Typography'
 import TableContainer from '@mui/material/TableContainer'
+import Link from '@mui/material/Link'
 import { FaDownload, FaShareAlt, FaRegEdit, FaTrashAlt } from "react-icons/fa"
 
 const tours = [
@@ -87,8 +88,8 @@ const tours = [
 ]
 
 const statusObj = {
-    0: { color: 'error' },
-    1: { color: 'success' }
+    0: { color: 'error', title:'Inactive' },
+    1: { color: 'success', title:'Active' }
 }
 
 const DashboardTable = ({ tourList }) => {
@@ -100,7 +101,7 @@ const DashboardTable = ({ tourList }) => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Tour ID</TableCell>
-                            <TableCell>Image</TableCell>
+                            {/* <TableCell>Image</TableCell> */}
                             <TableCell>Tour Name</TableCell>
                             <TableCell>Tour Type</TableCell>
                             <TableCell>Tourist Count</TableCell>
@@ -114,7 +115,7 @@ const DashboardTable = ({ tourList }) => {
                         {tourList?.map((row, index) => (
                             <TableRow hover key={row.name} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
                                 <TableCell>{index+1}</TableCell>
-                                <TableCell><img src={`http://127.0.0.1:5000/uploads/${row?.image}`} height={50} alt="" /> </TableCell>
+                                {/* <TableCell><img src={`http://127.0.0.1:5000/uploads/${row?.image}`} height={50} alt="" /> </TableCell> */}
                                 <TableCell sx={{ py: theme => `${theme.spacing(0.5)} !important` }}>
                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <Typography sx={{ fontWeight: 500, fontSize: '0.875rem !important' }}>{row.name}</Typography>
@@ -127,7 +128,7 @@ const DashboardTable = ({ tourList }) => {
                                 <TableCell>{row?.end_date}</TableCell>
                                 <TableCell>
                                     <Chip
-                                        label={row.status}
+                                        label={statusObj[row.status].title}
                                         color={statusObj[row.status].color}
                                         sx={{
                                             height: 24,
@@ -138,7 +139,8 @@ const DashboardTable = ({ tourList }) => {
                                         />
                                 </TableCell>
                                 <TableCell>
-                                    <FaDownload color="#3a3541ad" size={20} />
+                                    <Link href={`/itinerary-builder/${row.id}`}><FaRegEdit color="#3a3541ad" size={20} style={{marginLeft: 10}} /></Link>
+                                    <FaDownload color="#3a3541ad" size={20} style={{marginLeft: 10}} />
                                     <FaShareAlt color="#3a3541ad" size={20} style={{marginLeft: 10}} />
                                     <FaRegEdit color="#3a3541ad" size={20} style={{marginLeft: 10}} />
                                     <FaTrashAlt color="#3a3541ad" size={20} style={{marginLeft: 10}} />

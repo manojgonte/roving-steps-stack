@@ -20,6 +20,7 @@ import TabContext from '@mui/lab/TabContext'
 
 import CardActions from '@mui/material/CardActions'
 import Button from '@mui/material/Button'
+import { useRouter } from 'next/router'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
     [theme.breakpoints.down('md')]: {
@@ -40,12 +41,7 @@ const TabName = styled('span')(({ theme }) => ({
 }))
 
 const Tours = () => {
-
-    const [value, setValue] = useState('info')
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue)
-    }
+    const router = useRouter();
 
     return (
         <Grid container spacing={6}>
@@ -94,14 +90,16 @@ const Tours = () => {
 
 
                     <CardActions className='card-action-dense' sx={{ width: '100%' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <InformationOutline />
-                            <TabName>Tour Basic Information</TabName>
-                        </Box>
+                        <Button>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <InformationOutline />
+                                <TabName>Itinerary Builder</TabName>
+                            </Box>
+                        </Button>
                     </CardActions>
 
                     <Grid item xs={12}>
-                        <TourInfo />
+                        <AddTourItinerary tourId={router.query.tourId} />
                     </Grid>
 
 
