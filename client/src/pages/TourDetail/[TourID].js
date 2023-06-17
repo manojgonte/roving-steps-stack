@@ -13,9 +13,21 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import SearchFilter from "@/Component/Common/SearchFilter/SearchFilter";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Modal from 'react-modal';
+import { BASE_URL } from "@/config";
 
 export default function TourDetail() {
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const openModal = () => {
+        setIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsOpen(false);
+    };
 
     const TourDays = [
         {
@@ -45,9 +57,17 @@ export default function TourDetail() {
     ];
     const router = useRouter();
 
+    const [tourDetail, setTourDetail] = useState();
+
     const tourDetails = async (id) => {
         console.log(id)
-        // const data = await getTourDetails(id);
+        try {
+            let result = await fetch(`${BASE_URL}/tour/get/id/${id}`);
+        result = await result.json();
+            setTourDetail(result.data[0]); 
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
         // console.log(data);
     }
 
@@ -56,7 +76,23 @@ export default function TourDetail() {
     }, [router?.query?.TourID]);
     
     return (
-        <main className="bg-white" style={{backgroundImage:'url(Assets/images/elements/bg_element.png)', backgroundPosition:'center'}}>
+        <main className="bg-white" style={{backgroundImage:'url(/Assets/images/elements/bg_element.png)', backgroundPosition:'center'}}>
+
+            <Modal
+                isOpen={isOpen}
+                onRequestClose={closeModal}
+                className="modal"
+                overlayClassName="overlay" >
+                <h2 className="text-lg font-semibold mb-4">Modal Content</h2>
+                <p>This is the content of the modal.</p>
+                <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+                onClick={closeModal}
+                >
+                Close
+                </button>
+            </Modal>
+
             <Header />
             <div className="flex flex-col relative w-full h-[350px] justify-center items-center gap-8 bg-scroll banner-image px-16">
                 <Image
@@ -82,29 +118,23 @@ export default function TourDetail() {
 
             <div className="container w-full px-28 pt-4 relative">
                 <div>
-                    <nav class="w-full rounded-md">
-                        <ol class="list-reset flex text-sm">
+                    <nav className="w-full rounded-md">
+                        <ol className="list-reset flex text-sm">
                             <li>
-                                <div class="text-[#6b6b6b] transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700">Tours</div>
+                                <div className="text-[#6b6b6b] transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700">Tours</div>
                             </li>
-                            <li><span class="mx-2 text-neutral-500">/</span></li>
+                            <li><span className="mx-2 text-neutral-500">/</span></li>
                             <li>
-                                <div href="#" class="text-[#6b6b6b] transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700">Dubai</div>
+                                <div href="#" className="text-[#6b6b6b] transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700">{tourDetail?.destination}</div>
                             </li>
-                            <li><span class="mx-2 text-neutral-500 ">/</span></li>
-                            <li class="text-[#6b6b6b]">Mesmerizing Dubai with Abu Dhabi</li>
+                            <li><span className="mx-2 text-neutral-500 ">/</span></li>
+                            <li className="text-[#6b6b6b]">{tourDetail?.name}</li>
                         </ol>
                     </nav>                    
-                    <h2 className="text-[#1b2c60] text-2xl font-bold">MESMERIZING DUBAI WITH ABU DHABI</h2>
+                    <h2 className="text-[#1b2c60] text-2xl font-bold">{tourDetail?.name}</h2>
                 </div>
 
-                <div className="my-1">
-                    {/* <Image src={"/Assets/images/common/Hexagone_2.jpg"}
-                        width={100} height={100}
-                        className="w-full h-full object-fill rounded-3xl p-3 shadow-md bg-white my-5" 
-                        alt="image" 
-                    /> */}
-                    
+                <div className="my-1">                    
                     <Swiper
                         modules={[Navigation, Scrollbar, Autoplay]}
                         spaceBetween={50}
@@ -118,7 +148,7 @@ export default function TourDetail() {
                         <div className="slanted text-xl font-bold absolute z-50 left-3 bottom-14 w-10 flex bg-[#df1e1e]">
                             <div className="flex h-screen justify-center items-center">
                                 <div className="text-left font-bold">
-                                    <div className="block text-white">INR 48000 /- </div>
+                                    <div className="block text-white">INR {tourDetail?.adult_price} /- </div>
                                     <div className="block text-sm text-white">Per Person</div>
                                 </div>
                             </div>
@@ -127,7 +157,7 @@ export default function TourDetail() {
                         <div className="slanted-left text-xl justify-end font-bold absolute z-50 right-3 top-14 w-10 flex bg-[#df1e1e]">
                             <div className="flex h-screen justify-center items-center">
                                 <div className="text-left font-bold">
-                                    <div className="block text-white">5N/6D</div>
+                                    <div className="block text-white">{tourDetail?.days}D/{tourDetail?.nights}N</div>
                                 </div>
                             </div>
                         </div>
@@ -156,11 +186,7 @@ export default function TourDetail() {
                         <div className="w-full justify-start items-center">
                             <h5 className="text-[#6b6b6b] font-bold text-xl mb-2">Overview</h5>
                             <p className="text-[#6b6b6b] pr-4">
-                                Dubai...Where everything Glitters... Dazzling Dubai is where the ancient Arabic culture & tradition sit side by side with the modern infrastructure. 
-                                Our Dubai Tours are memorable for all times to come, for we make you taste the Arabic delicacies, travel the paths of Gold Souk, 
-                                thrill at Desert Safari, experience the stunning feat of architecture- the Burj Khalifa, the iconic Burj al-Arab, Palm Jumeirah & more. 
-                                With Kesari, you will not only see Dubai you will experience it! The Dhow Dinner Cruise, the Desert Dune Safari, the Dubai Fountain Show and Snow World are some of the highlights of our Dubai Tour packages. 
-                                The Dubai Shopping Festival and Ferrari Park are entertaining elements that are added to enhance your Dubai Tours.
+                                {tourDetail?.description}
                             </p>
                         </div>
                     </div>
@@ -175,7 +201,7 @@ export default function TourDetail() {
                             </div>
                             <div className="text-sm text-[#000] mt-2">4 Stay | Meal | Siteseeing | Private Transport | Visa</div>
                             <div className="flex justify-start mt-5">
-                                <button className="bg-[#c6c6c6] hover:bg-[#6b6b6b] w-full h-10 p-3 flex items-center justify-center rounded-md  font-normal opacity-100 text-xs hover:shadow-lg">
+                                <button onClick={openModal} className="bg-[#c6c6c6] hover:bg-[#6b6b6b] w-full h-10 p-3 flex items-center justify-center rounded-md  font-normal opacity-100 text-xs hover:shadow-lg">
                                     ENQUIRE</button>
                                 <button className="bg-[#ECBF40] hover:bg-[#eca740] ml-3 w-full h-10 p-3 flex items-center justify-center rounded-md  font-normal opacity-100 text-xs hover:shadow-lg">
                                     BOOK NOW</button>

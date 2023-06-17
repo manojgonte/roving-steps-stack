@@ -109,14 +109,14 @@ export default function Register() {
                                     </div>
 
                                     <div className="px-4 md:px-0 lg:w-5/12 sm:6/12">
-                                        <div className="md:mx-6 md:p-12 min-h-screen">
+                                        <div className="md:mx-6 md:px-12 min-h-screen">
 
                                             <div className="justify-center md:mb-10">
                                                 <Image
-                                                    src={"/Assets/images/Icons/Toplogo.svg"}
-                                                    width={100}
+                                                    src={"/Assets/images/elements/get_started.png"}
+                                                    width={200}
                                                     height={100}
-                                                    className="w-full h-4/5"
+                                                    className=""
                                                     alt="logo"
                                                 />
                                             </div>
@@ -124,28 +124,28 @@ export default function Register() {
                                             <form onSubmit={signUp}>
                                                 <div className="mb-2">
                                                     <div className="mb-3">
-                                                        <label for="name" className="block text-sm font-semibold text-gray-800" >Name *</label>
+                                                        <label for="name" className="block text-sm text-gray-800" >Name *</label>
                                                         <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                     </div>
 
                                                     <div className="flex justify-between">
-                                                        <div className="mb-3 mr-1">
-                                                            <label for="contact" className="block text-sm font-semibold text-gray-800" >Contact *</label>
+                                                        <div className="mb-3 mr-3 w-full">
+                                                            <label for="contact" className="block text-sm text-gray-800" >Contact *</label>
                                                             <input type="" value={contact} onChange={(e) => setContact(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                         </div>
-                                                        <div className="mb-3">
-                                                            <label for="email" className="block text-sm font-semibold text-gray-800" >Email *</label>
+                                                        <div className="mb-3 w-full">
+                                                            <label for="email" className="block text-sm text-gray-800" >Email *</label>
                                                             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                         </div>
                                                     </div>
 
                                                     <div className="mb-3">
-                                                        <label for="password" className="block text-sm font-semibold text-gray-800">Password *</label>
+                                                        <label for="password" className="block text-sm text-gray-800">Password *</label>
                                                         <input type="password" value={password} onChange={(e) => setpassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                     </div>
 
                                                     <div className="mb-3">
-                                                        <label for="confirm-password" className="block text-sm font-semibold text-gray-800">Confirm Password *</label>
+                                                        <label for="confirm-password" className="block text-sm text-gray-800">Confirm Password *</label>
                                                         <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                     </div>
                                                 </div>
@@ -154,18 +154,18 @@ export default function Register() {
                                                     {errorMessage}
                                                 </div>
                                                 <div className="mb-12 pb-1 pt-1 text-center">
-                                                    <button onClick={signUp} className="bg-[#ECBF40] w-full h-10 p-3 flex items-center justify-center rounded-md  font-normal opacity-100 text-sm hover:shadow-lg">
+                                                    <button onClick={signUp} className="bg-[#ECBF40] w-full h-10 p-3 font-semibold flex items-center justify-center rounded-md text-white opacity-100 text-sm hover:shadow-lg">
                                                         SIGN UP
                                                     </button>
                                                     <div className="flex mt-2">
                                                         <input type="checkbox" className="ml-2" onClick={(e) => setIsTermsChecked(() => !isTermsChecked)} />
-                                                        <div className="text-sm text-black">&nbsp; I agree to <Link href="" className="text-[#ECBF40]">Terms of services</Link> and <Link href="" className="text-[#ECBF40]">Privacy Policy</Link></div>
+                                                        <div className="text-sm text-gray-800">&nbsp; I agree to <Link href="" className="text-[#ECBF40]">Terms of services</Link> and <Link href="" className="text-[#ECBF40]">Privacy Policy</Link></div>
                                                     </div>
                                                 </div>
 
 
                                                 <div className="flex items-center justify-start pb-6 text-sm">
-                                                    <p className="mb-0 mr-2 text-black">Already have an account?</p>
+                                                    <p className="mb-0 mr-2 text-gray-800">Already have an account?</p>
                                                     <Link href="/Login" className="text-[#ECBF40]">Sign In</Link>
                                                 </div>
                                             </form>

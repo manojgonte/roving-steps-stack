@@ -83,10 +83,10 @@ const HomePageBanner = () => {
                 </SwiperSlide>
             </Swiper>
             <div className="z-10 flex flex-col absolute w-full h-[500px] justify-center items-center gap-8">
-                <div className="w-[600px] text-center font-bold text-white text-4xl drop-shadow-lg">
-                    {`Explore the huge word and enjoy it's beauty`}
+                <div className="w-[600px] text-center font-bold text-white text-4xl drop-shadow-md">
+                    Explore the Huge Word <br /> and Enjoy it's Beauty
                 </div>
-                <div className="w-4/5 text-white text-xl font-thin text-center tracking-widest ">
+                <div className="w-4/5 text-white text-xl font-thin text-center tracking-widest drop-shadow-md">
                     {`Let's experience moments which leave us stunned and gives us goosebumps and so much more that we cannot express when we travel to places we always wished for`}
                 </div>
                 <div className="w-full flex justify-center">

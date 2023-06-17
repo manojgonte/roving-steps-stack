@@ -56,7 +56,7 @@ export default function Login() {
                                         <div className="px-4 py-6 md:mx-6 md:p-12">
                                             <div className="justify-center">
                                                 <Link href="/">
-                                                <img src={"/Assets/images/Logo/Roving Steps Logo white.png"} style={{ width: 300 }} />
+                                                    <img src={"/Assets/images/Logo/Roving Steps Logo white.png"} style={{ width: 300 }} />
                                                 </Link>
                                             </div>
                                             <p className="text-sm text-center text-white">
@@ -66,43 +66,47 @@ export default function Login() {
                                     </div>
 
                                     <div className="px-4 md:px-0 lg:w-5/12 sm:6/12">
-                                        <div className="md:mx-6 md:p-12 min-h-screen items-center">
+                                        <div className="md:mx-6 md:px-12 min-h-screen items-center">
 
                                             <div className="justify-center md:mb-10">
                                                 <Image
-                                                    src={"/Assets/images/Icons/Toplogo.svg"}
-                                                    width={100}
+                                                    src={"/Assets/images/elements/welcome_back.png"}
+                                                    width={200}
                                                     height={100}
-                                                    className="w-full h-4/5"
-                                                    alt="logo"
+                                                    className=""
+                                                    alt="sign in"
                                                 />
                                             </div>
 
                                             <form>
                                                 <div className="mb-2">
                                                     <div className="mb-3">
-                                                        <label for="email" className="block text-sm font-semibold text-gray-800" >Email *</label>
-                                                        <input type="email" onChange={(e) => setEmail(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
+                                                        <label for="email" className="block text-sm font-normal text-gray-800" >Email *</label>
+                                                        <input type="email" onChange={(e) => setEmail(e.target.value)} className="block w-full px-4 py-2 mt-2 text-[#1B2C60] bg-white border rounded-md" />
                                                     </div>
 
                                                     <div className="mb-3">
-                                                        <label for="password" className="block text-sm font-semibold text-gray-800">Password *</label>
-                                                        <input type="password" onChange={(e) => setPassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
+                                                        <label for="password" className="block text-sm font-normal text-gray-800">Password *</label>
+                                                        <input type="password" onChange={(e) => setPassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-[#1B2C60] bg-white border rounded-md" />
+                                                    </div>
+                                                    
+                                                    <div className="mb-3">
+                                                        <Link href="/" className="text-[#1B2C60] text-sm">Forgot Password?</Link>
                                                     </div>
                                                 </div>
 
                                                 <div className="mb-12 pb-1 pt-1 text-center">
-                                                    <button onClick={signIn} className="bg-[#ECBF40] w-full h-10 p-3 flex items-center justify-center rounded-md  font-normal opacity-100 text-sm hover:shadow-lg">
+                                                    <button onClick={signIn} className="bg-[#ECBF40] w-full h-10 p-3 flex items-center justify-center rounded-md text-white font-semibold opacity-100 text-sm hover:shadow-lg">
                                                         SIGN IN
                                                     </button>
                                                     <div className="flex mt-2">
                                                         <input type="checkbox" className="ml-2" />
-                                                        <div className="text-sm text-black">&nbsp; I agree to <Link href="" className="text-[#ECBF40]">Terms of services</Link> and <Link href="" className="text-[#ECBF40]">Privacy Policy</Link></div>
+                                                        <div className="text-sm text-[#1B2C60]">&nbsp; I agree to <Link href="" className="text-[#ECBF40]">Terms of services</Link> and <Link href="" className="text-[#ECBF40]">Privacy Policy</Link></div>
                                                     </div>
                                                 </div>
 
                                                 <div className="flex items-center justify-start pb-6 text-sm">
-                                                    <p className="mb-0 mr-2 text-black">{`Don't have an account yet?`}</p>
+                                                    <p className="mb-0 mr-2 text-[#1B2C60]">{`Don't have an account yet?`}</p>
                                                     <Link href="/Register" className="text-[#ECBF40]">Sign Up</Link>
                                                 </div>
                                             </form>
