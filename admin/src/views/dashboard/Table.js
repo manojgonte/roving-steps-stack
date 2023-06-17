@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography'
 import TableContainer from '@mui/material/TableContainer'
 import Link from '@mui/material/Link'
 import { FaDownload, FaShareAlt, FaRegEdit, FaTrashAlt } from "react-icons/fa"
+import { useRouter } from 'next/router'
 
 const tours = [
     {
@@ -93,6 +94,11 @@ const statusObj = {
 }
 
 const DashboardTable = ({ tourList }) => {
+
+    const router = useRouter();
+    const editTour = () => {
+        router.push('/tour-planner');
+    }
     
     return (
         <Card>
@@ -113,7 +119,7 @@ const DashboardTable = ({ tourList }) => {
                     </TableHead>
                     <TableBody>
                         {tourList?.map((row, index) => (
-                            <TableRow hover key={row.name} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
+                            <TableRow hover key={row.index + "._"} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
                                 <TableCell>{index+1}</TableCell>
                                 {/* <TableCell><img src={`http://127.0.0.1:5000/uploads/${row?.image}`} height={50} alt="" /> </TableCell> */}
                                 <TableCell sx={{ py: theme => `${theme.spacing(0.5)} !important` }}>
@@ -139,10 +145,10 @@ const DashboardTable = ({ tourList }) => {
                                         />
                                 </TableCell>
                                 <TableCell>
-                                    <Link href={`/itinerary-builder/${row.id}`}><FaRegEdit color="#3a3541ad" size={20} style={{marginLeft: 10}} /></Link>
+                                    {/* <Link href={`/itinerary-builder/${row.id}`}><FaRegEdit color="#3a3541ad" size={20} style={{marginLeft: 10}} /></Link> */}
                                     <FaDownload color="#3a3541ad" size={20} style={{marginLeft: 10}} />
                                     <FaShareAlt color="#3a3541ad" size={20} style={{marginLeft: 10}} />
-                                    <FaRegEdit color="#3a3541ad" size={20} style={{marginLeft: 10}} />
+                                    <FaRegEdit onClick={editTour} color="#3a3541ad" size={20} style={{marginLeft: 10, cursor: "pointer"}} />
                                     <FaTrashAlt color="#3a3541ad" size={20} style={{marginLeft: 10}} />
                                 </TableCell>
                             </TableRow>
