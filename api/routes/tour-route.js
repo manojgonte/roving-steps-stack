@@ -156,5 +156,6 @@ router.post('/tour/filter', async (req, res) => {
             statusCode: 404
         });
     }
-})
+});
+
 export default router;

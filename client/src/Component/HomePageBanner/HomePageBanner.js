@@ -10,8 +10,14 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper";
 import SearchFilter from "../Common/SearchFilter/SearchFilter";
+import { useRouter } from "next/router";
 
 const HomePageBanner = () => {
+
+    const router = useRouter();
+    const onClick = () => {
+        router.push("/Tours");
+    }
 
     return (
         <div className="flex flex-col m-0 p-0 relative w-full h-[600px] justify-center items-center">
@@ -90,7 +96,7 @@ const HomePageBanner = () => {
                     {`Let's experience moments which leave us stunned and gives us goosebumps and so much more that we cannot express when we travel to places we always wished for`}
                 </div>
                 <div className="w-full flex justify-center">
-                    <button className="bg-[#ECBF40] hover:bg-[#ECA740] text-white w-28 h-8 rounded-md text-sm drop-shadow-lg text-center">
+                    <button onClick={onClick} className="bg-[#ECBF40] hover:bg-[#ECA740] text-white w-28 h-8 rounded-md text-sm drop-shadow-lg text-center">
                         EXPLORE
                     </button>
                 </div>

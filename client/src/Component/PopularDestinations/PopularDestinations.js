@@ -9,9 +9,12 @@ import "swiper/css/navigation";
 import { Keyboard, Pagination, Navigation } from "swiper";
 import { useEffect, useRef, useState } from "react";
 import { getTourList } from "@/Services/commonServices";
+import { useRouter } from "next/router";
 
 const PopularDestinations = () => {
     const swiperRef = useRef();
+    const router = useRouter();
+
     const [popularDestinations, setPopularDestinations] = useState([]);
 
     const tourListFun = async () => {
@@ -64,6 +67,11 @@ const PopularDestinations = () => {
             }
         }
     ]
+
+    const onClick = () => {
+        router.push("/Tours");
+    }
+
     return (
         <div className="flex flex-col w-full h-[600px] px-16 py-5 gap-8">
             <div className="text-2xl font-bold text-[#1B2C60] text-center w-full py-5">
@@ -101,7 +109,7 @@ const PopularDestinations = () => {
                 </button>
             </div>
             <div className=" flex justify-center items-center">
-                <button className="bg-[#ECBF40] hover:bg-[#ECA740] text-white w-36 h-8 rounded-md  text-sm drop-shadow-lg text-center">
+                <button onClick={onClick} className="bg-[#ECBF40] hover:bg-[#ECA740] text-white w-36 h-8 rounded-md  text-sm drop-shadow-lg text-center">
                     EXPLORE MORE
                 </button>
             </div>

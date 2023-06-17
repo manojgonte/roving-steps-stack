@@ -29,75 +29,100 @@ router.get('/tour-itinerary/get/id/:id', async (req, res) => {
                 message: "Itinerary fetched successfully",
                 data: result
             })
-        )   
+        )
     } catch (error) {
         res.status(404).json({
             error: error,
             status: "fail",
             statusCode: 404
         })
-    }    
+    }
 });
 
 router.post('/tour-itinerary/create-itinerary', async (req, res) => {
     const reqdata = req?.body;
-
-    let tour_id = reqdata?.tour_id
-    let title = reqdata?.title
-    let day = reqdata?.day
-    let description = reqdata?.description
-    let activity = reqdata?.activity
-    let stay = reqdata?.stay
-    let food = reqdata?.food
-    let status = reqdata?.status
-    let places_to_visit = reqdata?.places_to_visit
-    let travel = reqdata?.travel
-    let image = reqdata?.image
-    let overview = reqdata?.overview
-    let travel_options = reqdata?.travel_options
+    console.log(reqdata)
 
     try {
-        
-        await createItineraryValidation.validateAsync({ ...req?.body});
-        const result = await createitinerary([
-            tour_id,
-            title,
-            day,
-            description,
-            activity,
-            stay,
-            food,
-            status,
-            places_to_visit,
-            travel,
-            image,
-            overview,
-            travel_options
-        ]);
+        if (reqdata?.length > 0) {
+            reqdata?.map(async (days) => {
 
-        if (result?.length > 0) {
-            res.status(200).send(
-                JSON.stringify({
-                    message: "Itinerary created successfully",
-                    data: result
+                days?.activities?.map(async (activity, index) => {
+                    let activityIndex = index
+                    let tour_id = days.tourId
+                    let title = ""
+                    let day = days?.day + 1 // To run calculations smoothly on FE, Adding 1 here...
+                    let description = activity?.description
+                    let myActivity = activity?.activity
+                    let stay = activity?.stay
+                    let food = activity?.food
+                    let status = ""
+                    let places_to_visit = activity?.place
+                    let travel = activity?.travelOption
+                    let image = activity?.image
+                    let overview = activity?.description
+                    let travel_options = activity?.travelOption
+
+                    try {
+
+                        // await createItineraryValidation.validateAsync({ ...req?.body});
+                        const result = await createitinerary([
+                            tour_id,
+                            title,
+                            day,
+                            description,
+                            myActivity,
+                            stay,
+                            food,
+                            status,
+                            places_to_visit,
+                            travel,
+                            image,
+                            overview,
+                            travel_options,
+                            activityIndex
+                        ]);
+
+                        if (result?.length > 0) {
+                            res.status(200).send(
+                                JSON.stringify({
+                                    message: "Itinerary created successfully",
+                                    data: result
+                                })
+                            );
+                        } else {
+                            res.status(500).send(
+                                JSON.stringify({
+                                    message: "Something went wrong",
+                                    error: result
+                                })
+                            )
+                        }
+
+                    } catch (error) {
+                        res.status(404).json({
+                            error: error,
+                            status: "fail",
+                            statusCode: 404
+                        })
+                    }
+
                 })
-            );
+            })
         } else {
-            res.status(500).send(
-                JSON.stringify({
-                    message: "Something went wrong",
-                    error: result
-                })
-            )
+            res.status(200).json({
+                message: "No data added",
+                status: "success",
+                statusCode: 200
+            });
         }
-
     } catch (error) {
         res.status(404).json({
             error: error,
             status: "fail",
             statusCode: 404
         })
-    }    
+    }
 });
 
 router.put('/itinerary/update/id/:id', async (req, res) => {

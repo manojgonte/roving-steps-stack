@@ -52,31 +52,51 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
     }
 }))
 
-const FormLayoutsSeparator = () => {
+const FormLayoutsSeparator = ({ goToItinerary }) => {
     // ** States
-    const [name, setName] = useState('mers');
-    const [destination, setDestination] = useState('USA');
-    const [tourType, setTourType] = useState('Domestic');
-    const [pricePerson, setPricePerson] = useState(100);
-    const [childPerson, setChildPerson] = useState(80);
-    const [fromDate, setFromDate] = useState('2023-06-10');
-    const [endDate, setEndDate] = useState('2023-06-15');
-    const [days, setDays] = useState(5);
-    const [nights, setNights] = useState(4);
-    const [amenities, setAmenities] = useState('test ame');
-    const [inclusions, setInclusions] = useState('incl');
-    const [exclusions, setExclusions] = useState('excl');
-    const [note, setNote] = useState('note');
-    const [overview, setOverview] = useState('desc');
+    const [name, setName] = useState('');
+    const [destination, setDestination] = useState('');
+    const [tourType, setTourType] = useState('');
+    const [pricePerson, setPricePerson] = useState(0);
+    const [childPerson, setChildPerson] = useState(0);
+    const [fromDate, setFromDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [days, setDays] = useState('');
+    const [nights, setNights] = useState('');
+    const [amenities, setAmenities] = useState('');
+    const [inclusions, setInclusions] = useState('');
+    const [exclusions, setExclusions] = useState('');
+    const [note, setNote] = useState('');
+    const [overview, setOverview] = useState('');
     const [popularPackage, setPopularPackage] = useState(false);
+    // const [name, setName] = useState('mers');
+    // const [destination, setDestination] = useState('USA');
+    // const [tourType, setTourType] = useState('Domestic');
+    // const [pricePerson, setPricePerson] = useState(100);
+    // const [childPerson, setChildPerson] = useState(80);
+    // const [fromDate, setFromDate] = useState('2023-06-10');
+    // const [endDate, setEndDate] = useState('2023-06-15');
+    // const [days, setDays] = useState(5);
+    // const [nights, setNights] = useState(4);
+    // const [amenities, setAmenities] = useState('test ame');
+    // const [inclusions, setInclusions] = useState('incl');
+    // const [exclusions, setExclusions] = useState('excl');
+    // const [note, setNote] = useState('note');
+    // const [overview, setOverview] = useState('desc');
+    // const [popularPackage, setPopularPackage] = useState(false);
 
-    const [image, setImage] = useState();
+    const [image, setImage] = useState("");
     const [error, setError] = useState(false);
 
     const addTour = async () => {
-        
-        if(!name || !destination || !image || !tourType || !pricePerson || !childPerson || !fromDate || !endDate || !days || !nights || !overview || !amenities || !inclusions || !exclusions || !note){
+
+        if (image?.name === "") {
             setError(true);
+            return
+        }
+        if (!name || !destination || !image || !tourType || !pricePerson || !childPerson || !fromDate || !endDate || !days || !nights || !overview || !amenities || !inclusions || !exclusions || !note) {
+            setError(true);
+            return
         }
 
         const formData = new FormData();
@@ -100,17 +120,18 @@ const FormLayoutsSeparator = () => {
 
         // const userId = JSON.parse(localStorage.getItem("user"))._id;
         try {
-            let result = await fetch (`${BASE_URL}/tour/create/`, {
+            let result = await fetch(`${BASE_URL}/tour/create/`, {
                 method: "POST",
                 body: formData,
             });
             result = await result.json();
             console.warn(result);
+            goToItinerary("itinerary", result[0]?.insertId);
         } catch (error) {
             console.error("An error occurred:", error);
         }
     }
-    
+
     const ImgStyled = styled('img')(({ theme }) => ({
         width: 120,
         height: 120,
@@ -118,8 +139,24 @@ const FormLayoutsSeparator = () => {
         borderRadius: theme.shape.borderRadius
     }))
 
-    const resetForm = () => { 
+    const resetForm = () => {
         document.getElementById("tour-form").reset();
+        setName("")
+        setDestination("")
+        setTourType("")
+        setPricePerson("")
+        setChildPerson("")
+        setFromDate("")
+        setEndDate("")
+        setDays(0)
+        setNights(0)
+        setAmenities("")
+        setInclusions("")
+        setExclusions("")
+        setNote("")
+        setOverview("")
+        setPopularPackage(false)
+        setImage("")
     }
 
     return (
@@ -135,8 +172,8 @@ const FormLayoutsSeparator = () => {
                         </Grid>
 
                         <Grid item xs={12} sm={4}>
-                            <TextField fullWidth label='Tour Name' value={name} onChange={(e)=>setName(e.target.value)} placeholder='Enter Tour Name' />
-                            { error && !name && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            <TextField fullWidth label='Tour Name' value={name} onChange={(e) => setName(e.target.value)} placeholder='Enter Tour Name' />
+                            {error && !name && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <FormControl fullWidth>
@@ -144,7 +181,7 @@ const FormLayoutsSeparator = () => {
                                 <Select
                                     label='Destination'
                                     value={destination}
-                                    onChange={(e)=>setDestination(e.target.value)}
+                                    onChange={(e) => setDestination(e.target.value)}
                                     defaultValue=''
                                     id='form-layouts-separator-select'
                                     labelId='form-layouts-separator-select-label' >
@@ -156,7 +193,7 @@ const FormLayoutsSeparator = () => {
                                     <MenuItem value='Germany'>Germany</MenuItem>
                                 </Select>
                             </FormControl>
-                            { error && !destination && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            {error && !destination && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
@@ -164,12 +201,12 @@ const FormLayoutsSeparator = () => {
                                 <input
                                     hidden
                                     type='file'
-                                    onChange={(e)=>setImage(e.target.files[0])}
+                                    onChange={(e) => setImage(e.target.files[0])}
                                     accept='image/png, image/jpeg'
                                     id='account-settings-upload-image'
                                 />
                             </ButtonStyled>
-                            { error && !image && <label style={{fontSize: 13, color:'red'}}>Choose image</label> }
+                            {error && !image && <label style={{ fontSize: 13, color: 'red' }}>Choose image</label>}
                         </Grid>
 
                         <Grid item xs={12} sm={4}>
@@ -178,7 +215,7 @@ const FormLayoutsSeparator = () => {
                                 <Select
                                     label='Tour Type'
                                     value={tourType}
-                                    onChange={(e)=>setTourType(e.target.value)}
+                                    onChange={(e) => setTourType(e.target.value)}
                                     defaultValue=''
                                     id='form-layouts-separator-select'
                                     labelId='form-layouts-separator-select-label' >
@@ -186,15 +223,15 @@ const FormLayoutsSeparator = () => {
                                     <MenuItem value='International'>International</MenuItem>
                                 </Select>
                             </FormControl>
-                            { error && !tourType && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            {error && !tourType && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField fullWidth label='Price per person (Adult)' value={pricePerson} onChange={(e)=>setPricePerson(e.target.value)} placeholder='Enter Price' />
-                            { error && !pricePerson && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            <TextField fullWidth label='Price per person (Adult)' value={pricePerson} onChange={(e) => setPricePerson(e.target.value)} placeholder='Enter Price' />
+                            {error && !pricePerson && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField fullWidth label='Price per person (Child)' value={childPerson} onChange={(e)=>setChildPerson(e.target.value)} placeholder='Enter Price' />
-                            { error && !childPerson && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            <TextField fullWidth label='Price per person (Child)' value={childPerson} onChange={(e) => setChildPerson(e.target.value)} placeholder='Enter Price' />
+                            {error && !childPerson && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
 
                         <Grid item xs={2}>
@@ -209,7 +246,7 @@ const FormLayoutsSeparator = () => {
                                     shrink: true,
                                 }}
                             />
-                            { error && !fromDate && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            {error && !fromDate && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
                         <Grid item xs={2}>
                             <TextField
@@ -223,14 +260,14 @@ const FormLayoutsSeparator = () => {
                                     shrink: true,
                                 }}
                             />
-                            { error && !endDate && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
-                        </Grid>                        
+                            {error && !endDate && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
+                        </Grid>
                         <Grid item xs={2}>
                             <FormControl fullWidth>
                                 <InputLabel id='form-layouts-separator-multiple-select-label'>Day/s</InputLabel>
                                 <Select
                                     value={days}
-                                    onChange={(e)=>setDays(e.target.value)}
+                                    onChange={(e) => setDays(e.target.value)}
                                     id='form-layouts-separator-multiple-select'
                                     labelId='form-layouts-separator-multiple-select-label'
                                     input={<OutlinedInput label='Day/s' />} >
@@ -243,14 +280,14 @@ const FormLayoutsSeparator = () => {
                                     <MenuItem value='7'>7</MenuItem>
                                 </Select>
                             </FormControl>
-                            { error && !days && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            {error && !days && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
                         <Grid item xs={2}>
                             <FormControl fullWidth>
                                 <InputLabel id='form-layouts-separator-multiple-select-label'>Night/s</InputLabel>
                                 <Select
                                     value={nights}
-                                    onChange={(e)=>setNights(e.target.value)}
+                                    onChange={(e) => setNights(e.target.value)}
                                     id='form-layouts-separator-multiple-select'
                                     labelId='form-layouts-separator-multiple-select-label'
                                     input={<OutlinedInput label='Night/s' id='select-multiple-language' />} >
@@ -262,12 +299,12 @@ const FormLayoutsSeparator = () => {
                                     <MenuItem value='6'>6</MenuItem>
                                     <MenuItem value='7'>7</MenuItem>
                                 </Select>
-                            </FormControl>  
-                            { error && !nights && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }  
+                            </FormControl>
+                            {error && !nights && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField fullWidth label='Amenities' value={amenities} onChange={(e)=>setAmenities(e.target.value)} placeholder='Enter Amenities' />
-                            { error && !amenities && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            <TextField fullWidth label='Amenities' value={amenities} onChange={(e) => setAmenities(e.target.value)} placeholder='Enter Amenities' />
+                            {error && !amenities && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
 
                         <Grid item xs={12}>
@@ -278,9 +315,9 @@ const FormLayoutsSeparator = () => {
                                 minRows={2}
                                 placeholder='Enter Overview'
                                 value={overview}
-                                onChange={(e)=>setOverview(e.target.value)}
+                                onChange={(e) => setOverview(e.target.value)}
                             />
-                            { error && !overview && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            {error && !overview && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
 
                         <Grid item xs={6} sm={6}>
@@ -291,9 +328,9 @@ const FormLayoutsSeparator = () => {
                                 minRows={2}
                                 placeholder='Enter Inclusions'
                                 value={inclusions}
-                                onChange={(e)=>setInclusions(e.target.value)}
+                                onChange={(e) => setInclusions(e.target.value)}
                             />
-                            { error && !inclusions && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            {error && !inclusions && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
 
                         <Grid item xs={6} sm={6}>
@@ -304,20 +341,20 @@ const FormLayoutsSeparator = () => {
                                 minRows={2}
                                 placeholder='Enter Exclusions'
                                 value={exclusions}
-                                onChange={(e)=>setExclusions(e.target.value)}
+                                onChange={(e) => setExclusions(e.target.value)}
                             />
-                            { error && !exclusions && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            {error && !exclusions && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
 
                         <Grid item xs={12}>
-                            <TextField fullWidth label='Note' value={note} onChange={(e)=>setNote(e.target.value)} placeholder='Enter Note' />
-                            { error && !note && <label style={{fontSize: 13, color:'red'}}>Enter valid input</label> }
+                            <TextField fullWidth label='Note' value={note} onChange={(e) => setNote(e.target.value)} placeholder='Enter Note' />
+                            {error && !note && <label style={{ fontSize: 13, color: 'red' }}>Enter valid input</label>}
                         </Grid>
 
                         <Grid item xs={12}>
                             <FormControlLabel
                                 label="Popular Tour Package"
-                                control={<Checkbox checked={popularPackage} value={1} onChange={(e)=>setPopularPackage(e.target.checked)} />}
+                                control={<Checkbox checked={popularPackage} value={1} onChange={(e) => setPopularPackage(e.target.checked)} />}
                             />
                         </Grid>
                     </Grid>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -41,11 +41,27 @@ const TabName = styled('span')(({ theme }) => ({
 
 const Tours = () => {
 
-    const [value, setValue] = useState('info')
+    const [value, setValue] = useState('info');
+    const [tourID, setTourID] = useState('');
 
     const handleChange = (event, newValue) => {
         setValue(newValue)
     }
+
+    const handleAddItinerary = (newValue, id) => {
+        setTourID(id);
+    }
+
+    useEffect(() => {
+        if (tourID !== "") {
+            setValue("itinerary");
+        }
+    }, [tourID])
+
+    useEffect(() => {
+        handleAddItinerary("",14);
+    }, [])
+    
 
     return (
         <Grid container spacing={6}>
@@ -56,7 +72,7 @@ const Tours = () => {
             </Grid>
             <Grid item xs={12}>
                 <Card>
-                    {/* <TabContext value={value}>
+                    <TabContext value={value}>
                         <TabList
                             onChange={handleChange}
                             aria-label='account-settings tabs'
@@ -67,7 +83,7 @@ const Tours = () => {
                                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                         <InformationOutline />
                                         <TabName>Basic Information</TabName>
-                                    </Box> }
+                                    </Box>}
                             />
                             <Tab
                                 value='itinerary'
@@ -82,18 +98,18 @@ const Tours = () => {
 
                         <TabPanel sx={{ p: 0 }} value='info'>
                             <Grid item xs={12}>
-                                <TourInfo />
+                                <TourInfo goToItinerary={handleAddItinerary} />
                             </Grid>
                         </TabPanel>
                         <TabPanel sx={{ p: 0 }} value='itinerary'>
                             <Grid item xs={12}>
-                                <AddTourItinerary />
+                                <AddTourItinerary tourId={tourID} />
                             </Grid>
                         </TabPanel>
-                    </TabContext> */}
+                    </TabContext>
 
 
-                    <CardActions className='card-action-dense' sx={{ width: '100%' }}>
+                    {/* <CardActions className='card-action-dense' sx={{ width: '100%' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <InformationOutline />
                             <TabName>Tour Basic Information</TabName>
@@ -102,7 +118,7 @@ const Tours = () => {
 
                     <Grid item xs={12}>
                         <TourInfo />
-                    </Grid>
+                    </Grid> */}
 
 
                 </Card>

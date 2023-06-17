@@ -1,6 +1,13 @@
 import Image from "next/image"
+import { useRouter } from "next/router";
 
 const HomePageAboutUs = () => {
+
+    const router = useRouter();
+    const onClick = () => {
+        router.push("/About");
+    }
+
     return (
         <div className="flex flex-row relative w-full h-[500px] bg-gradient-to-r px-16">
             <div className="w-2/4 flex justify-center">
@@ -66,7 +73,7 @@ const HomePageAboutUs = () => {
                     </p>
                 </div>
                 <div>
-                    <button className="bg-[#ECBF40] hover:bg-[#ECA740] text-white w-28 h-8 rounded-md  text-sm drop-shadow-lg text-center">
+                    <button onClick={onClick} className="bg-[#ECBF40] hover:bg-[#ECA740] text-white w-28 h-8 rounded-md  text-sm drop-shadow-lg text-center">
                         EXPLORE
                     </button>
                 </div>
