@@ -34,33 +34,18 @@ const ButtonStyled = styled(Button)(({ theme }) => ({
 const FormLayoutsSeparator = ({tourId}) => {
     // ** States
     const [tourDetails, setTourDetails] = useState('');
-    const [itinerary, setItinerary] = useState({ place: '', activity: '', travelOption: '', description: '', stay: '', food: '', image: '' });
-    const [formValues, setFormValues] = useState([{ place: '', activity: '', travelOption: '', description: '', stay: '', food: '', image: '' }])
-
-    let handleChange = (i, e) => {
-        let newFormValues = [...formValues];
-        newFormValues[i][e.target.name] = e.target.value;
-        setFormValues(newFormValues);
-    }
-
-    let addFormFields = () => {
-        setFormValues([...formValues, { place: '', activity: '', travelOption: '', description: '', stay: '', food: '', image: '' }])
-    }
-
-    let removeFormFields = (i) => {
-        let newFormValues = [...formValues];
-        newFormValues.splice(i, 1);
-        setFormValues(newFormValues)
-    }
+    const [formData, setFormData] = useState({});
 
     let handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(JSON.stringify(formValues));
+        console.log(formData);
+
+        // console.log(JSON.stringify(formValues)); 
 
         try {
             let result = await fetch(`${BASE_URL}/tour/itinerary/`, {
                 method: "POST",
-                body: JSON.stringify(formValues),
+                body: JSON.stringify(formData),
             });
             result = await result.json();
             console.warn(result);
@@ -78,30 +63,23 @@ const FormLayoutsSeparator = ({tourId}) => {
         let result = await fetch(`${BASE_URL}/tour/get/id/${tourId}`);
         result = await result.json();
         console.log(result.data[0]);
-        setTourDetails(result.data[0]);
+        setTourDetails(result.data[0]); 
     }
+
+
+    const handleChange = (index, event) => {
+        const { name, value } = event.target;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [index]: {
+                ...prevFormData[index],
+                [name]: value,
+            },
+        }));
+    };
 
     return (
         <Card>
-            {/* <form>
-                {formValues.map((element, index) => (
-                    <div className="form-inline" key={index}>
-                        <label>Name</label>
-                        <input type="text" name="name" value={element.name || ""} onChange={e => handleChange(index, e)} />
-                        <label>Email</label>
-                        <input type="text" name="email" value={element.email || ""} onChange={e => handleChange(index, e)} />
-                        {
-                            index ? 
-                            <button type="button"  className="button remove" onClick={() => removeFormFields(index)}>Remove</button> 
-                            : null
-                        }
-                    </div>
-                ))}
-            </form>
-            <div className="button-section">
-                <button className="button add" type="button" onClick={() => addFormFields()}>Add</button>
-                <button className="button submit" onClick={handleSubmit} type="button">Submit</button>
-            </div> */}
 
             <Divider sx={{ margin: 0 }} />
             <form onSubmit={e => e.preventDefault()}>
@@ -122,10 +100,11 @@ const FormLayoutsSeparator = ({tourId}) => {
                             </Typography>
                         </Grid>
                     </Grid>
+                    {/* {formValues.map((element, index) => ( */}
 
-                    {/* {Array.from({ length: tourDetails?.days }, (_, index) => ( */}
+                    {Array.from({ length: tourDetails?.days }, (element, index) => (
 
-                    {formValues.map((element, index) => (
+
                         <Grid container spacing={5} key={index}>
                             <Grid item xs={12} sx={{ mt: 3 }}>
                                 <Chip
@@ -133,16 +112,16 @@ const FormLayoutsSeparator = ({tourId}) => {
                                     variant="outlined"
                                     sx={{ fontWeight: 600, backgroundColor: '#76809F', color: '#fff' }}
                                 />
-                                {index ?
+                                {/* {index ?
                                     <Button size='small' type='button' sx={{ mr: 2, ml: 2 }} variant='outlined' onClick={() => removeFormFields(index)}>Remove</Button>
                                     : null
-                                }
+                                } */}
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField fullWidth label='Place to Visit' type="text" name="place" value={element.place || ""} onChange={e => handleChange(index, e)} placeholder='Enter Place to Visit' />
+                                <TextField fullWidth label='Place to Visit' type="text" name="place" value={formData[index]?.place || ""} onChange={(e) => handleChange(index, e)} placeholder='Enter Place to Visit' />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField fullWidth type='text' label='Activity of the Day' name="activity" value={element.activity || ""} onChange={e => handleChange(index, e)} placeholder='Enter Activity' />
+                                <TextField fullWidth type='text' label='Activity of the Day' name="activity" value={formData[index]?.activity || ""} onChange={e => handleChange(index, e)} placeholder='Enter Activity' />
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <FormControl fullWidth>
@@ -150,7 +129,7 @@ const FormLayoutsSeparator = ({tourId}) => {
                                     <Select
                                         label='Travel Option'
                                         name="travelOption"
-                                        value={element.travelOption || ""}
+                                        value={formData[index]?.travelOption || ""}
                                         onChange={e => handleChange(index, e)}
                                         defaultValue=''
                                         id='form-layouts-separator-select'
@@ -158,7 +137,7 @@ const FormLayoutsSeparator = ({tourId}) => {
                                         <MenuItem value='Bike'>Bike</MenuItem>
                                         <MenuItem value='Private Car'>Private Car</MenuItem>
                                         <MenuItem value='Common Vehicle'>Common Vehicle</MenuItem>
-                                        <MenuItem value='Train'>Train</MenuItem>
+                                        <MenuItem value='Train'>Train</MenuItem> 
                                         <MenuItem value='Aeroplane'>Aeroplane</MenuItem>
                                         <MenuItem value='Cruite'>Cruite</MenuItem>
                                     </Select>
@@ -169,7 +148,7 @@ const FormLayoutsSeparator = ({tourId}) => {
                                     fullWidth
                                     multiline
                                     name="description"
-                                    value={element.description || ""}
+                                    value={formData[index]?.description || ""}
                                     onChange={e => handleChange(index, e)}
                                     label='Overview'
                                     minRows={2}
@@ -177,10 +156,10 @@ const FormLayoutsSeparator = ({tourId}) => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField fullWidth type='text' label='Stay' name="stay" value={element.stay || ""} onChange={e => handleChange(index, e)} placeholder='Enter Stay' />
+                                <TextField fullWidth type='text' label='Stay' name="stay" value={formData[index]?.stay || ""} onChange={e => handleChange(index, e)} placeholder='Enter Stay' />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField fullWidth type='text' label='Food' name="food" value={element.food || ""} onChange={e => handleChange(index, e)} placeholder='Enter Food' />
+                                <TextField fullWidth type='text' label='Food' name="food" value={formData[index]?.food || ""} onChange={e => handleChange(index, e)} placeholder='Enter Food' />
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <ButtonStyled component='label' variant='contained' htmlFor={`account-settings-upload-image-${index + 1}`}>
@@ -189,7 +168,7 @@ const FormLayoutsSeparator = ({tourId}) => {
                                         hidden
                                         type='file'
                                         name="image"
-                                        value={element.image || ""}
+                                        value={formData[index]?.image || ""}
                                         onChange={e => handleChange(index, e)}
                                         accept='image/png, image/jpeg'
                                         id={`account-settings-upload-image-${index + 1}`}
@@ -202,9 +181,9 @@ const FormLayoutsSeparator = ({tourId}) => {
                         </Grid>
                     ))}
 
-                    <Grid sx={{ mt: 2 }}>
+                    {/* <Grid sx={{ mt: 2 }}>
                         <Button size='small' type='button' sx={{ mr: 2 }} variant='contained' onClick={() => addFormFields()}>Add More </Button>
-                    </Grid>
+                    </Grid> */}
 
                     {/* <AddItineraryDay day={2} /> */}
 

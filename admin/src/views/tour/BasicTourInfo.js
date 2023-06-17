@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
-import { BASE_URL } from 'src/config'
 
 const StyledBox = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('sm')]: {
