@@ -1,5 +1,5 @@
 // ** React Imports
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -26,6 +26,7 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 // ** Icons Imports
 import FileUpload from 'mdi-material-ui/FileUpload'
 import { BASE_URL } from 'src/config'
+import { useRouter } from 'next/router'
 
 const FromDate = forwardRef((props, ref) => {
     return <TextField fullWidth {...props} inputRef={ref} label='From Date' autoComplete='off' />
@@ -52,7 +53,7 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
     }
 }))
 
-const FormLayoutsSeparator = ({ goToItinerary }) => {
+const FormLayoutsSeparator = ({ goToItinerary, tourId }) => {
     // ** States
     const [name, setName] = useState('');
     const [destination, setDestination] = useState('');
@@ -69,24 +70,12 @@ const FormLayoutsSeparator = ({ goToItinerary }) => {
     const [note, setNote] = useState('');
     const [overview, setOverview] = useState('');
     const [popularPackage, setPopularPackage] = useState(false);
-    // const [name, setName] = useState('mers');
-    // const [destination, setDestination] = useState('USA');
-    // const [tourType, setTourType] = useState('Domestic');
-    // const [pricePerson, setPricePerson] = useState(100);
-    // const [childPerson, setChildPerson] = useState(80);
-    // const [fromDate, setFromDate] = useState('2023-06-10');
-    // const [endDate, setEndDate] = useState('2023-06-15');
-    // const [days, setDays] = useState(5);
-    // const [nights, setNights] = useState(4);
-    // const [amenities, setAmenities] = useState('test ame');
-    // const [inclusions, setInclusions] = useState('incl');
-    // const [exclusions, setExclusions] = useState('excl');
-    // const [note, setNote] = useState('note');
-    // const [overview, setOverview] = useState('desc');
-    // const [popularPackage, setPopularPackage] = useState(false);
-
     const [image, setImage] = useState("");
     const [error, setError] = useState(false);
+    const [isUpdate, setIsUpdate] = useState(false);
+    const [actionMessage, setActionMessage] = useState("");
+
+    const router = useRouter();
 
     const addTour = async () => {
 
@@ -126,7 +115,49 @@ const FormLayoutsSeparator = ({ goToItinerary }) => {
             });
             result = await result.json();
             console.warn(result);
+            setActionMessage("Tour Added succefully");
             goToItinerary("itinerary", result[0]?.insertId);
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    }
+
+    const editTour = async () => {
+        try {
+
+            const formData = new FormData();
+            formData.append('image', image?.file ? image : { file: { filename: image } });
+            formData.append('name', name);
+            formData.append('type', tourType);
+            formData.append('destination', destination);
+            formData.append('adult_price', pricePerson);
+            formData.append('child_price', childPerson);
+            formData.append('from_date', fromDate);
+            formData.append('end_date', endDate);
+            formData.append('days', days);
+            formData.append('nights', nights);
+            formData.append('description', overview);
+            formData.append('amenities', amenities);
+            formData.append('inclusions', inclusions);
+            formData.append('exclusions', exclusions);
+            formData.append('note', note);
+            formData.append('is_popular', popularPackage ? 1 : 0);
+            formData.append('status', '0');
+            formData.append('id', tourId);
+
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var requestOptions = {
+                method: 'POST',
+                body: formData,
+            };
+
+            let result = await fetch(`${BASE_URL}/tour/update`, requestOptions);
+            result = await result.json();
+            console.warn(result);
+            setActionMessage("Tour updated succefully");
+            router.push("/tours")
         } catch (error) {
             console.error("An error occurred:", error);
         }
@@ -158,6 +189,41 @@ const FormLayoutsSeparator = ({ goToItinerary }) => {
         setPopularPackage(false)
         setImage("")
     }
+
+    const getBasicInfo = async () => {
+        console.log(tourId);
+        let result = await fetch(`${BASE_URL}/tour/get/id/${tourId}`);
+        result = await result.json();
+        console.log(result);
+        // setTourDetails(result.data[0]);
+        if (result?.message === "All tours fetched succefully") {
+            const BasicData = result?.data[0];
+            console.log(BasicData)
+            setName(BasicData?.name)
+            setDestination(BasicData?.destination);
+            setTourType(BasicData?.type)
+            setPricePerson(BasicData?.adult_price)
+            setChildPerson(BasicData?.child_price)
+            setFromDate(BasicData?.from_date)
+            setEndDate(BasicData?.end_date)
+            setDays(BasicData?.days)
+            setNights(BasicData?.nights)
+            setAmenities(BasicData?.amenities)
+            setInclusions(BasicData?.inclusions)
+            setExclusions(BasicData?.exclusions)
+            setNote(BasicData?.note)
+            setOverview(BasicData?.description)
+            setPopularPackage(BasicData?.is_popular === 0 ? false : true)
+            setImage(BasicData?.image);
+        }
+    };
+
+    useEffect(() => {
+        if (tourId !== undefined && tourId !== "" && tourId) {
+            getBasicInfo();
+            setIsUpdate(!isUpdate);
+        }
+    }, [])
 
     return (
         <Card>
@@ -361,12 +427,12 @@ const FormLayoutsSeparator = ({ goToItinerary }) => {
                 </CardContent>
                 <Divider sx={{ margin: 0 }} />
                 <CardActions>
-                    <Button onClick={addTour} size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-                        Add
+                    <Button onClick={isUpdate ? editTour : addTour} size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
+                        {isUpdate ? "Save Edited" : "Add"}
                     </Button>
-                    <Button onClick={resetForm} size='large' color='secondary' variant='outlined'>
-                        Reset
-                    </Button>
+                    {!isUpdate && <Button onClick={() => isUpdate ? goToItinerary("itinerary", tourId) : resetForm} size='large' color='secondary' variant='outlined'>
+                        {isUpdate ? "Next" : "Reset"}
+                    </Button>}
                     <Button size='large' color='secondary' variant='outlined'>
                         Cancel
                     </Button>

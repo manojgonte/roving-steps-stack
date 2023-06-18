@@ -89,17 +89,20 @@ const tours = [
 ]
 
 const statusObj = {
-    0: { color: 'error', title:'Inactive' },
-    1: { color: 'success', title:'Active' }
+    0: { color: 'error', title: 'Inactive' },
+    1: { color: 'success', title: 'Active' }
 }
 
 const DashboardTable = ({ tourList }) => {
 
     const router = useRouter();
-    const editTour = () => {
-        router.push('/tour-planner');
+    const editTour = (id) => {
+        router.push({
+            pathname: '/tour-planner',
+            query: { id: id, isEdit: true }
+        });
     }
-    
+
     return (
         <Card>
             <TableContainer>
@@ -119,13 +122,13 @@ const DashboardTable = ({ tourList }) => {
                     </TableHead>
                     <TableBody>
                         {tourList?.map((row, index) => (
-                            <TableRow hover key={row.index + "._"} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
-                                <TableCell>{index+1}</TableCell>
+                            <TableRow hover key={index + "._"} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
+                                <TableCell>{index + 1}</TableCell>
                                 {/* <TableCell><img src={`http://127.0.0.1:5000/uploads/${row?.image}`} height={50} alt="" /> </TableCell> */}
                                 <TableCell sx={{ py: theme => `${theme.spacing(0.5)} !important` }}>
                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <Typography sx={{ fontWeight: 500, fontSize: '0.875rem !important' }}>{row.name}</Typography>
-                                        <Typography variant='caption'>{row.description?.slice(0,30)}</Typography>
+                                        <Typography variant='caption'>{row.description?.slice(0, 30)}</Typography>
                                     </Box>
                                 </TableCell>
                                 <TableCell>{row.type}</TableCell>
@@ -142,14 +145,13 @@ const DashboardTable = ({ tourList }) => {
                                             textTransform: 'capitalize',
                                             '& .MuiChip-label': { fontWeight: 500 }
                                         }}
-                                        />
+                                    />
                                 </TableCell>
                                 <TableCell>
-                                    {/* <Link href={`/itinerary-builder/${row.id}`}><FaRegEdit color="#3a3541ad" size={20} style={{marginLeft: 10}} /></Link> */}
-                                    <FaDownload color="#3a3541ad" size={20} style={{marginLeft: 10}} />
-                                    <FaShareAlt color="#3a3541ad" size={20} style={{marginLeft: 10}} />
-                                    <FaRegEdit onClick={editTour} color="#3a3541ad" size={20} style={{marginLeft: 10, cursor: "pointer"}} />
-                                    <FaTrashAlt color="#3a3541ad" size={20} style={{marginLeft: 10}} />
+                                    <FaDownload color="#3a3541ad" size={20} style={{ marginLeft: 10 }} />
+                                    <FaShareAlt color="#3a3541ad" size={20} style={{ marginLeft: 10 }} />
+                                    <FaRegEdit onClick={() => editTour(row.id)} color="#3a3541ad" size={20} style={{ marginLeft: 10, cursor: "pointer" }} />
+                                    <FaTrashAlt color="#3a3541ad" size={20} style={{ marginLeft: 10 }} />
                                 </TableCell>
                             </TableRow>
                         ))}

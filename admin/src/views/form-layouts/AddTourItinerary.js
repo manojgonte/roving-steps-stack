@@ -34,7 +34,6 @@ const ButtonStyled = styled(Button)(({ theme }) => ({
 }))
 
 const FormLayoutsSeparator = ({ tourId }) => {
-    // ** States
     const router = useRouter();
     const [tourDetails, setTourDetails] = useState('');
     const [itineraryArray, setItineraryArray] = useState([]);
@@ -52,7 +51,6 @@ const FormLayoutsSeparator = ({ tourId }) => {
         event.preventDefault();
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        // myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
         itineraryArray?.map(async (days) => {
 
@@ -198,7 +196,6 @@ const FormLayoutsSeparator = ({ tourId }) => {
                             </Typography>
                         </Grid>
                     </Grid>
-                    {/* {formValues.map((element, index) => ( */}
 
                     {itineraryArray.map((days, index) => (
                         <Grid container spacing={5} key={index}>

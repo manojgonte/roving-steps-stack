@@ -20,6 +20,7 @@ import TabContext from '@mui/lab/TabContext'
 
 import CardActions from '@mui/material/CardActions'
 import Button from '@mui/material/Button'
+import { useRouter } from 'next/router'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
     [theme.breakpoints.down('md')]: {
@@ -43,6 +44,8 @@ const Tours = () => {
 
     const [value, setValue] = useState('info');
     const [tourID, setTourID] = useState('');
+    const router = useRouter();
+    const { id, isEdit } = router?.query;
 
     const handleChange = (event, newValue) => {
         setValue(newValue)
@@ -53,10 +56,20 @@ const Tours = () => {
     }
 
     useEffect(() => {
-        if (tourID !== "") {
+        if(id && id !== "" && isEdit === true) {
+            setValue("info");
+        } else if (tourID !== "") {
             setValue("itinerary");
         }
-    }, [tourID])    
+    }, [tourID]);
+
+    // useEffect(() => {
+    //     console.log(id, isEdit)
+    //     if (id && id !== "" && isEdit === true) {
+    //         setTourID(id)
+    //     }
+    // }, [router?.query])
+
 
     return (
         <Grid container spacing={6}>
@@ -88,12 +101,13 @@ const Tours = () => {
                                         <Link href="/tours"><TabName>Itinerary Builder</TabName></Link>
                                     </Box>
                                 }
+                                disabled={true}
                             />
                         </TabList>
 
                         <TabPanel sx={{ p: 0 }} value='info'>
                             <Grid item xs={12}>
-                                <TourInfo goToItinerary={handleAddItinerary} />
+                                <TourInfo goToItinerary={handleAddItinerary} tourId={id} />
                             </Grid>
                         </TabPanel>
                         <TabPanel sx={{ p: 0 }} value='itinerary' className='pointer-events-none'>
@@ -102,20 +116,6 @@ const Tours = () => {
                             </Grid>
                         </TabPanel>
                     </TabContext>
-
-
-                    {/* <CardActions className='card-action-dense' sx={{ width: '100%' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <InformationOutline />
-                            <TabName>Tour Basic Information</TabName>
-                        </Box>
-                    </CardActions>
-
-                    <Grid item xs={12}>
-                        <TourInfo />
-                    </Grid> */}
-
-
                 </Card>
             </Grid>
         </Grid>
