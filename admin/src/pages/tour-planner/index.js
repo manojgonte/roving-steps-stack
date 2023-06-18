@@ -56,12 +56,7 @@ const Tours = () => {
         if (tourID !== "") {
             setValue("itinerary");
         }
-    }, [tourID])
-
-    useEffect(() => {
-        handleAddItinerary("",14);
-    }, [])
-    
+    }, [tourID])    
 
     return (
         <Grid container spacing={6}>
@@ -101,7 +96,7 @@ const Tours = () => {
                                 <TourInfo goToItinerary={handleAddItinerary} />
                             </Grid>
                         </TabPanel>
-                        <TabPanel sx={{ p: 0 }} value='itinerary'>
+                        <TabPanel sx={{ p: 0 }} value='itinerary' className='pointer-events-none'>
                             <Grid item xs={12}>
                                 <AddTourItinerary tourId={tourID} />
                             </Grid>

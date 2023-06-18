@@ -24,6 +24,7 @@ import AddItineraryDay from '../tour/AddItineraryDay'
 import { BASE_URL } from 'src/config'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { Alert } from '@mui/material'
 
 const ButtonStyled = styled(Button)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -36,9 +37,7 @@ const FormLayoutsSeparator = ({ tourId }) => {
     // ** States
     const router = useRouter();
     const [tourDetails, setTourDetails] = useState('');
-    const [formData, setFormData] = useState({});
     const [itineraryArray, setItineraryArray] = useState([]);
-    const [tempDayActivity, setTempDayActivity] = useState([]);
     const activity = {
         place: "",
         activity: "",
@@ -51,36 +50,65 @@ const FormLayoutsSeparator = ({ tourId }) => {
 
     let handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(JSON.stringify({ itineraryArray }));
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        // myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-        try {
+        itineraryArray?.map(async (days) => {
 
-            var myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
-            // myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+            days?.activities?.map(async (activity, index) => {
+                let activityIndex = index
+                let tour_id = days.tourId
+                let title = ""
+                let day = days?.day + 1
+                let description = activity?.description
+                let myActivity = activity?.activity
+                let stay = activity?.stay
+                let food = activity?.food
+                let status = ""
+                let places_to_visit = activity?.place
+                let travel = activity?.travelOption
+                let image = activity?.image
+                let overview = activity?.description
+                let travel_options = activity?.travelOption
 
-            var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: JSON.stringify(JSON.stringify({ itineraryArray })),
-                // body: JSON.stringify(JSON.stringify({ itineraryArray })),
-                redirect: 'follow'
-            };
+                let ActivityData = {
+                    activityIndex: activityIndex,
+                    tour_id: tour_id,
+                    title: title,
+                    day: day,
+                    description: description,
+                    myActivity: myActivity,
+                    stay: stay,
+                    food: food,
+                    status: status,
+                    places_to_visit: places_to_visit,
+                    travel: travel,
+                    image: image,
+                    overview: overview,
+                    travel_options: travel_options
+                }
 
-            // let result = await fetch(BASE_URL + '/tour-itinerary/create-itinerary', {
-            //     method: "POST",
-            //     body: JSON.stringify(Object.fromEntries(itineraryArray)),
-            //     // body: JSON.stringify({ itineraryArray }),
-            // });
-            // result = await result.json();
-            // console.warn(result);
+                try {
 
-            const data = await fetch('http://localhost:5000/tour-itinerary/create-itinerary', requestOptions);
-            const result = await data.json();
-            console.log(result)
-        } catch (error) {
-            console.error("An error occurred:", error);
-        }
+                    var requestOptions = {
+                        method: 'POST',
+                        headers: myHeaders,
+                        body: JSON.stringify(ActivityData),
+                        redirect: 'follow'
+                    };
+
+                    const data = await fetch('http://localhost:5000/tour-itinerary/create-itinerary', requestOptions);
+                    const result = await data.json();
+                    if (result?.message === "Itinerary created successfully") {
+                        <Alert severity="error">Itinerary created successfully</Alert>
+                    }
+                } catch (error) {
+                    console.error("An error occurred:", error);
+                }
+
+            })
+        })
     }
 
     useEffect(() => {
@@ -115,27 +143,8 @@ const FormLayoutsSeparator = ({ tourId }) => {
         setItineraryArray((prevFormData) => updatedArray);
     };
 
-    console.log(itineraryArray);
-
     const onclick = () => {
         router.push("/tours");
-    }
-
-    const checkEarlierDay = (index) => {
-        console.log(itineraryArray[index]);
-        // return true
-        if (index === 1) {
-            return false
-        }
-        return itineraryArray[index - 1]?.activities.some(item => {
-            for (const key in item) {
-                if (item.hasOwnProperty(key) && (item[key] === '' || item[key] === null || item[key] === undefined)) {
-                    return true; // Property is empty
-                }
-            }
-
-            return false; // No empty properties found
-        });
     }
 
     const addFormFields = (index) => {
@@ -299,7 +308,7 @@ const FormLayoutsSeparator = ({ tourId }) => {
                     <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained' onClick={handleSubmit}>
                         Save
                     </Button>
-                    <Button onClick={onclick} size='large' color='secondary' variant='outlined'>
+                    <Button onClick={() => onclick()} size='large' color='secondary' variant='outlined'>
                         Cancel
                     </Button>
                 </CardActions>
