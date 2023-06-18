@@ -1,4 +1,5 @@
 import express from "express";
+import multer from 'multer';
 import { createitinerary, deleteIntinerary, getAllIntineraryTour, getIntinerary, updateIntinerary } from "../Controller/tour-itinerary.js";
 import { createItineraryValidation } from "../Schema/tour-itinerary-schema.js";
 const router = express.Router();
@@ -9,7 +10,7 @@ const upload = multer({
             cb(null, "uploads")
         },
         filename: function (req, file, cb) {
-            cb(null, file.fieldname + "-" + Date.now() + ".jpg")
+            cb(null, file?.fieldname + "-" + Date.now() + ".jpg")
         }
     })
 }).single('image');

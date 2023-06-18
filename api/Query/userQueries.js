@@ -11,6 +11,8 @@ export const GET_TOURS_WITH_ID = "SELECT * FROM tours WHERE id=?";
 
 export const CREATE_TOUR = "INSERT INTO `tours`(`name`, `image`, `type`, `destination`, `short_desc`, `description`, `adult_price`, `child_price`, `from_date`, `end_date`, `days`, `nights`, `amenities`, `inclusions`, `exclusions`, `note`, `is_popular`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
+export const UPDATE_TOUR = "UPDATE tours SET name=?, image=?, type=?, destination=?, short_desc=?, description=?, adult_price=?, child_price=?, from_date=?, end_date=?, days=?, nights=?, amenities=?, inclusions=?, exclusions=?, note=?, is_popular=?, status=? WHERE id=?"
+
 export const DELETE_TOUR = "DELETE FROM tours WHERE id=?";
 
 export const TOUR_FILTER = "SELECT * FROM tours WHERE type=? AND destination IN (?)";
