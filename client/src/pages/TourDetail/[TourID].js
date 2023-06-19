@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Modal from 'react-modal';
 import { BASE_URL } from "@/config";
+import EnquiryModal from "@/Component/EnquiryModal";
 
 export default function TourDetail() {
 
@@ -81,16 +82,9 @@ export default function TourDetail() {
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModal}
-                className="modal"
+                className="modal w-8/12 p-0"
                 overlayClassName="overlay" >
-                <h2 className="text-lg font-semibold mb-4">Modal Content</h2>
-                <p>This is the content of the modal.</p>
-                <button
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-                onClick={closeModal}
-                >
-                Close
-                </button>
+                <EnquiryModal closeModal={closeModal} />
             </Modal>
 
             <Header />

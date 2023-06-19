@@ -90,7 +90,7 @@ const HomePageBanner = () => {
             </Swiper>
             <div className="z-10 flex flex-col absolute w-full h-[500px] justify-center items-center gap-8">
                 <div className="w-[600px] text-center font-bold text-white text-4xl drop-shadow-md">
-                    Explore the Huge Word <br /> and Enjoy it's Beauty
+                    Explore the Huge Word <br /> and Enjoy its Beauty
                 </div>
                 <div className="w-4/5 text-white text-xl font-thin text-center tracking-widest drop-shadow-md">
                     {`Let's experience moments which leave us stunned and gives us goosebumps and so much more that we cannot express when we travel to places we always wished for`}

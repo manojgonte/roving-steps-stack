@@ -6,7 +6,7 @@ export const Header = () => {
     const router = useRouter();
 
     return (
-        <div className="top-0 left-0 w-full h-20 flex flex-row items-center bg-[#2DAAE1] px-16 fixed z-20">
+        <div className="top-0 left-0 w-full h-20 flex flex-row items-center bg-[#2DAAE1] px-16 fixed z-50">
             <div className="w-96 h-full flex justify-center items-center hover:cursor-pointer" onClick={() => router.push("/")}>
                 <Image
                     src={"/Assets/images/Icons/Toplogo.svg"}

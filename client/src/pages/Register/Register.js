@@ -1,6 +1,4 @@
 import Image from "next/image";
-import Header from "../Header";
-import Footer from "../Footer";
 import Link from "next/link";
 import { useState } from "react";
 import { BASE_URL } from "../../../config";
@@ -71,7 +69,7 @@ export default function Register() {
             body: JSON.stringify(user_data),
             redirect: 'follow'
         };
-        const data = await fetch('http://localhost:5000/registration', requestOptions);
+        const data = await fetch(`${BASE_URL}/registration`, requestOptions);
         const result = await data.json();
 
         if(result?.statusCode === 200 && result?.status === "success") {
@@ -99,7 +97,12 @@ export default function Register() {
                                         <div className="px-4 py-6 md:mx-6 md:p-12">
                                             <div className="justify-center">
                                                 <Link href="/">
-                                                    <img src={"/Assets/images/Logo/Roving Steps Logo white.png"} style={{ width: 300 }} />
+                                                    <Image  
+                                                    src={"/Assets/images/Logo/Roving Steps Logo white.png"} 
+                                                    height={150}
+                                                    width={300}
+                                                    alt="logo"
+                                                    />
                                                 </Link>
                                             </div>
                                             <p className="text-sm text-center text-white">

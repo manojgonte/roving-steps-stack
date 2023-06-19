@@ -10,6 +10,7 @@ import { Keyboard, Pagination, Navigation } from "swiper";
 import { useEffect, useRef, useState } from "react";
 import PopularTourCard from "../Common/PopularTourCard";
 import { getTourList } from "@/Services/commonServices";
+import Image from "next/image";
 
 const HomeTourPackage = () => {
 
@@ -119,7 +120,7 @@ const HomeTourPackage = () => {
                 <button onClick={() => {
                     swiperRef.current?.slidePrev()
                 }}>
-                    <img src="/Assets/images/Icons/BackEnd.svg" alt=""/>
+                    <Image height={70} width={70} src="/Assets/images/Icons/BackEnd.svg" alt="" />
                 </button>
                 <Swiper
                     slidesPerView={4}
@@ -141,7 +142,7 @@ const HomeTourPackage = () => {
                     )}
                 </Swiper>
                 <button onClick={() => swiperRef.current?.slideNext()}>
-                    <img src="/Assets/images/Icons/NextEnd.svg" alt="" />
+                    <Image height={70} width={70} src="/Assets/images/Icons/NextEnd.svg" alt="" />
                 </button>
             </div>
         </div>

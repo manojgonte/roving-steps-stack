@@ -1,9 +1,8 @@
 import Image from "next/image";
-import Footer from "../Footer";
-import Header from "../Header";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { BASE_URL } from "../../../config";
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -28,7 +27,7 @@ export default function Login() {
             redirect: 'follow'
         };
 
-        const data = await fetch('http://localhost:5000/login/user', requestOptions);
+        const data = await fetch(`${BASE_URL}/login/user`, requestOptions);
         const result = await data.json();
 
         if(result?.statusCode === 200 && result?.status === "success") {
@@ -56,7 +55,12 @@ export default function Login() {
                                         <div className="px-4 py-6 md:mx-6 md:p-12">
                                             <div className="justify-center">
                                                 <Link href="/">
-                                                    <img src={"/Assets/images/Logo/Roving Steps Logo white.png"} style={{ width: 300 }} />
+                                                    <Image  
+                                                    src={"/Assets/images/Logo/Roving Steps Logo white.png"} 
+                                                    height={150}
+                                                    width={300}
+                                                    alt=""
+                                                    />
                                                 </Link>
                                             </div>
                                             <p className="text-sm text-center text-white">
@@ -81,12 +85,12 @@ export default function Login() {
                                             <form>
                                                 <div className="mb-2">
                                                     <div className="mb-3">
-                                                        <label for="email" className="block text-sm font-normal text-gray-800" >Email *</label>
+                                                        <label className="block text-sm font-normal text-gray-800" >Email *</label>
                                                         <input type="email" onChange={(e) => setEmail(e.target.value)} className="block w-full px-4 py-2 mt-2 text-[#1B2C60] bg-white border rounded-md" />
                                                     </div>
 
                                                     <div className="mb-3">
-                                                        <label for="password" className="block text-sm font-normal text-gray-800">Password *</label>
+                                                        <label className="block text-sm font-normal text-gray-800">Password *</label>
                                                         <input type="password" onChange={(e) => setPassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-[#1B2C60] bg-white border rounded-md" />
                                                     </div>
                                                     
