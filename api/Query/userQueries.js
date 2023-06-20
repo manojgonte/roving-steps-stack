@@ -36,3 +36,6 @@ export const GET_DESTINATIONS = "SELECT * FROM destination";
 export const REGISTRATION = "INSERT INTO client_user (name, contact, email, password) VALUES (?,?,?,?)";
 
 export const CLIENT_USER_EXIST = "SELECT * FROM client_user WHERE email=? AND password=?";
+
+// tour enquiry
+export const CREATE_TOUR_ENQUIRY = "INSERT INTO tour_enquiry (name, contact, email, tourist_count, current_city, from_date, end_date, message, created_at) VALUES (?,?,?,?,?,?,?,?,?)";

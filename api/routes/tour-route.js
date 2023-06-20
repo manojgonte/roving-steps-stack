@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 const router = express.Router();
-import { getAllTours, getTourWithID, createTour, getDestList, getFilteredList, updateTour } from '../Controller/tour.js';
+import { getAllTours, getTourWithID, createTour, getDestList, getFilteredList, updateTour, createTourEnquiry } from '../Controller/tour.js';
 import { createTourValidation } from '../Schema/tour-schema.js';
 
 const upload = multer({
@@ -212,6 +212,43 @@ router.post('/tour/filter', async (req, res) => {
                 data: data
             })
         }
+    } catch (error) {
+        res.status(404).json({
+            error: error,
+            status: "fail",
+            statusCode: 404
+        });
+    }
+});
+
+router.post('/tour/enquiry', async(req, res) => { 
+    let reqdata = req?.body;
+
+    let name = reqdata?.name;
+    let contact = reqdata?.contact;
+    let email = reqdata?.email;
+    let tourist_count = reqdata?.tourist_count;
+    let current_city = reqdata?.current_city;
+    let from_date = reqdata?.from_date;
+    let end_date = reqdata?.end_date;
+    let message = reqdata?.message;
+    let created_at = new Date();
+    
+    console.log(name,contact,email,tourist_count,current_city,from_date,end_date,message,created_at);
+    try {
+        const result = await createTourEnquiry([
+            name,
+            contact,
+            email,
+            tourist_count,
+            current_city,
+            from_date,
+            end_date,
+            message,
+            created_at
+        ]);
+        // console.log(result);
+        res.status(200).send(result);
     } catch (error) {
         res.status(404).json({
             error: error,

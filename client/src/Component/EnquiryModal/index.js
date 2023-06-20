@@ -56,10 +56,10 @@ export default function EnquiryModal({closeModal}) {
             return
         }
 
-        let body = { name, contact, email, touristCount, currentCity, fromDate, endDate, message }
+        let body = { name:name, contact:contact, email:email, tourist_count:touristCount, current_city:currentCity, from_date:fromDate, end_date:endDate, message:message };
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-
+        
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
@@ -69,6 +69,7 @@ export default function EnquiryModal({closeModal}) {
 
         const data = await fetch(`${BASE_URL}/tour/enquiry`, requestOptions);
         const result = await data.json();
+        console.warn(result);
 
         if(result?.statusCode === 200 && result?.status === "success") {
             router.push("/")
@@ -120,7 +121,7 @@ export default function EnquiryModal({closeModal}) {
                                                     <div className="flex justify-between">
                                                         <div className="mb-3 mr-3 w-full">
                                                             <label className="block text-sm text-gray-800" >Contact No. *</label>
-                                                            <input type="" value={contact} onChange={(e) => setContact(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
+                                                            <input type="text" value={contact} onChange={(e) => setContact(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                         </div>
                                                         <div className="mb-3 w-full">
                                                             <label className="block text-sm text-gray-800" >Email *</label>
@@ -145,7 +146,7 @@ export default function EnquiryModal({closeModal}) {
                                                             <input type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                         </div>
                                                         <div className="mb-3 w-full">
-                                                            <label for="email" className="block text-sm text-gray-800" >Travel To Date *</label>
+                                                            <label className="block text-sm text-gray-800" >Travel To Date *</label>
                                                             <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                         </div>
                                                     </div>

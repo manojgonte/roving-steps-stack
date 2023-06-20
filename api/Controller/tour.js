@@ -1,4 +1,4 @@
-import { CREATE_TOUR, DELETE_TOUR, GET_DESTINATIONS, GET_TOURS, GET_TOURS_WITH_ID, TOUR_FILTER, UPDATE_TOUR } from "../Query/userQueries.js";
+import { CREATE_TOUR, DELETE_TOUR, GET_DESTINATIONS, GET_TOURS, GET_TOURS_WITH_ID, TOUR_FILTER, UPDATE_TOUR, CREATE_TOUR_ENQUIRY } from "../Query/userQueries.js";
 import { pool } from "../connection/database.js";
 
 const database = pool.promise();
@@ -51,4 +51,9 @@ export const getDestList = async () => {
 export const getFilteredList = async (type, filterOptions) => {
     const data = await database.query(TOUR_FILTER, [type, filterOptions]);
     return data[0]
+}
+
+export const createTourEnquiry = async (params) => {
+    const data = await database.query(CREATE_TOUR_ENQUIRY, params);
+    return data;
 }
