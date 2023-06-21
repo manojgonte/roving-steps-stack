@@ -28,6 +28,9 @@ import FileUpload from 'mdi-material-ui/FileUpload'
 import { BASE_URL } from 'src/config'
 import { useRouter } from 'next/router'
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const FromDate = forwardRef((props, ref) => {
     return <TextField fullWidth {...props} inputRef={ref} label='From Date' autoComplete='off' />
 })
@@ -75,6 +78,8 @@ const FormLayoutsSeparator = ({ goToItinerary, tourId }) => {
     const [isUpdate, setIsUpdate] = useState(false);
     const [actionMessage, setActionMessage] = useState("");
 
+    var isEdit = false;
+
     const router = useRouter();
 
     const addTour = async () => {
@@ -105,7 +110,7 @@ const FormLayoutsSeparator = ({ goToItinerary, tourId }) => {
         formData.append('exclusions', exclusions);
         formData.append('note', note);
         formData.append('is_popular', popularPackage);
-        formData.append('status', '0');
+        formData.append('status', popularPackage === false ? 0 : 1);
 
         // const userId = JSON.parse(localStorage.getItem("user"))._id;
         try {
@@ -116,7 +121,7 @@ const FormLayoutsSeparator = ({ goToItinerary, tourId }) => {
             result = await result.json();
             console.warn(result);
             setActionMessage("Tour Added succefully");
-            goToItinerary("itinerary", result[0]?.insertId);
+            goToItinerary("itinerary", result[0]?.insertId, isEdit = false);
         } catch (error) {
             console.error("An error occurred:", error);
         }
@@ -157,7 +162,13 @@ const FormLayoutsSeparator = ({ goToItinerary, tourId }) => {
             result = await result.json();
             console.warn(result);
             setActionMessage("Tour updated succefully");
-            router.push("/tours")
+            // Show a success toast message
+            // toast.success('Tour updated succefully!', {
+            //     position: 'top-center',
+            //     autoClose: 3000, // Toast message will automatically close after 3000ms (3 seconds)
+            //     hideProgressBar: true, // Hide the progress bar
+            // });            
+            goToItinerary("itinerary", tourId, isEdit = true);
         } catch (error) {
             console.error("An error occurred:", error);
         }

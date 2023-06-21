@@ -44,6 +44,7 @@ const Tours = () => {
 
     const [value, setValue] = useState('info');
     const [tourID, setTourID] = useState('');
+    const [isItineraryEdit, setIsItineraryEdit] = useState(false);
     const router = useRouter();
     const { id, isEdit } = router?.query;
 
@@ -51,8 +52,9 @@ const Tours = () => {
         setValue(newValue)
     }
 
-    const handleAddItinerary = (newValue, id) => {
+    const handleAddItinerary = (newValue, id, isItiEdit) => {
         setTourID(id);
+        setIsItineraryEdit(isItiEdit);
     }
 
     useEffect(() => {
@@ -112,7 +114,7 @@ const Tours = () => {
                         </TabPanel>
                         <TabPanel sx={{ p: 0 }} value='itinerary' className='pointer-events-none'>
                             <Grid item xs={12}>
-                                <AddTourItinerary tourId={tourID} />
+                                <AddTourItinerary tourId={tourID} isItineraryEdit={isItineraryEdit} />
                             </Grid>
                         </TabPanel>
                     </TabContext>

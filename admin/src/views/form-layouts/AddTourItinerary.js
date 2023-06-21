@@ -33,7 +33,7 @@ const ButtonStyled = styled(Button)(({ theme }) => ({
     }
 }))
 
-const FormLayoutsSeparator = ({ tourId }) => {
+const FormLayoutsSeparator = ({ tourId, isItineraryEdit }) => {
     const router = useRouter();
     const [tourDetails, setTourDetails] = useState('');
     const [itineraryArray, setItineraryArray] = useState([]);
@@ -47,7 +47,73 @@ const FormLayoutsSeparator = ({ tourId }) => {
         image: ""
     };
 
-    let handleSubmit = async (event) => {
+    const handleSubmitUpdate = async (event) => {
+        event.preventDefault();
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        itineraryArray?.map(async (days) => {
+
+            days?.activities?.map(async (activity, index) => {
+                let activityIndex = index
+                let tour_id = days.tourId
+                let title = ""
+                let day = Number(days?.day) + 1
+                let description = activity?.description
+                let myActivity = activity?.activity
+                let stay = activity?.stay
+                let food = activity?.food
+                let status = ""
+                let places_to_visit = activity?.place
+                let travel = activity?.travelOption
+                let image = activity?.image
+                let overview = activity?.description
+                let travel_options = activity?.travelOption
+                let deleteId = activity?.itinerarId
+                console.log(deleteId)
+
+                let ActivityData = {
+                    activityIndex: activityIndex,
+                    tour_id: tour_id,
+                    title: title,
+                    day: day,
+                    description: description,
+                    myActivity: myActivity,
+                    stay: stay,
+                    food: food,
+                    status: status,
+                    places_to_visit: places_to_visit,
+                    travel: travel,
+                    image: image,
+                    overview: overview,
+                    travel_options: travel_options,
+                    deleteId
+                }
+
+                try {
+
+                    var requestOptions = {
+                        method: 'POST',
+                        headers: myHeaders,
+                        body: JSON.stringify(ActivityData),
+                        redirect: 'follow'
+                    };
+
+                    const data = await fetch('http://localhost:5000/itinerary/update/id/', requestOptions);
+                    const result = await data.json();
+                    if (result?.message === "Itinerary updated successfully") {
+                        <Alert severity="error">Itinerary updated successfully</Alert>
+                    }
+                    router.push('/tours');
+                } catch (error) {
+                    console.error("An error occurred:", error);
+                }
+
+            })
+        })
+    }
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -101,6 +167,7 @@ const FormLayoutsSeparator = ({ tourId }) => {
                     if (result?.message === "Itinerary created successfully") {
                         <Alert severity="error">Itinerary created successfully</Alert>
                     }
+                    router.push('/tours');
                 } catch (error) {
                     console.error("An error occurred:", error);
                 }
@@ -114,15 +181,65 @@ const FormLayoutsSeparator = ({ tourId }) => {
     }, []);
 
     const getTourBasicDetails = async () => {
+        console.log(isItineraryEdit);
         if (tourId) {
             let result = await fetch(`${BASE_URL}/tour/get/id/${tourId}`);
             result = await result.json();
+            console.log(result);
             setTourDetails(result.data[0]);
-            if (result.data[0].id) {
-                setItineraryArray(() => [...Array.from({ length: result.data[0]?.days }, (x, i) => ({ tourId: result.data[0].id, day: i, activities: [activity] }))]);
+            if (isItineraryEdit) {
+                getTourItineraryData(result?.data[0], tourId);
+            } else {
+                if (result.data[0].id) {
+                    setItineraryArray(() => [...Array.from({ length: result.data[0]?.days }, (x, i) => ({ tourId: result.data[0].id, day: i, activities: [activity] }))]);
+                }
             }
         }
     }
+
+    const getTourItineraryData = async (tourData, tourId) => {
+        let result = await fetch(BASE_URL + '/tour-itinerary/get/id/' + tourId);
+        result = await result.json();
+        console.log(result);
+        const tempData = result?.data;
+        const activityArr = tempData.reduce((acc, obj) => {
+            const dayExists = acc.find(item => item.day === obj.day);
+            const { tour_id, day, places_to_visit, activity, travel_options, description, stay, food, image, id } = obj;
+
+            if (dayExists) {
+                dayExists.activities.push({
+                    place: places_to_visit,
+                    activity,
+                    travelOption: travel_options,
+                    description,
+                    stay,
+                    food,
+                    image
+                });
+            } else {
+                acc.push({
+                    tourId: tour_id,
+                    day,
+                    activities: [{
+                        place: places_to_visit,
+                        activity,
+                        travelOption: travel_options,
+                        description,
+                        stay,
+                        food,
+                        image,
+                        itinerarId: id
+                    }]
+                });
+            }
+            return acc;
+        }, []);
+
+        console.log(activityArr);
+        setItineraryArray(() => activityArr?.filter((item, index) => ({ ...item, day: index })))
+    }
+
+    console.log(itineraryArray);
 
     const handleChange = (dayIndex, activityIndex, event) => {
         const { name, value } = event.target;
@@ -269,12 +386,13 @@ const FormLayoutsSeparator = ({ tourId }) => {
                                                         hidden
                                                         type='file'
                                                         name="image"
-                                                        value={itineraryArray[index]?.activities[ind]?.image || ""}
+                                                        value={""}
                                                         onChange={e => handleChange(index, ind, e)}
                                                         accept='image/png, image/jpeg'
                                                         id={`account-settings-upload-image-${index + "." + ind + "." + 1}`}
                                                     />
                                                 </ButtonStyled>
+                                                <div>{itineraryArray[index]?.activities[ind]?.image ? "Already uploaded image " + itineraryArray[index]?.activities[ind]?.image : null}</div>
                                             </Grid>
                                             <Grid item xs={12} sx={{ mt: 3 }}>
                                                 <Button disabled={days?.activities?.length < 2} size='small' type='button' sx={{ mr: 2 }} variant='outlined' onClick={() => removeFormField(index, ind)}>Remove activity</Button>
@@ -302,8 +420,8 @@ const FormLayoutsSeparator = ({ tourId }) => {
                 </CardContent>
                 <Divider sx={{ margin: 0 }} />
                 <CardActions>
-                    <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained' onClick={handleSubmit}>
-                        Save
+                    <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained' onClick={isItineraryEdit ? handleSubmitUpdate : handleSubmit}>
+                        {isItineraryEdit ? "Update" : "Save"}
                     </Button>
                     <Button onClick={() => onclick()} size='large' color='secondary' variant='outlined'>
                         Cancel

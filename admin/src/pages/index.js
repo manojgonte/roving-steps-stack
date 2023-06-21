@@ -21,6 +21,8 @@ import StatisticsCard from 'src/views/dashboard/StatisticsCard'
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
 import SalesByCountries from 'src/views/dashboard/SalesByCountries'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Dashboard = () => {
     return (
@@ -28,8 +30,9 @@ const Dashboard = () => {
             <Grid container spacing={6}>
                 <Grid item xs={12} md={12}>
                     <Trophy />
-                </Grid> 
+                </Grid>
                 <Grid item xs={12} md={12} lg={12}>
+                    <ToastContainer position="bottom-right" />
                     <Grid container spacing={6}>
                         <Grid item xs={3}>
                             <CardStatisticsVerticalComponent
