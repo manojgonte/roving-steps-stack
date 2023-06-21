@@ -22,9 +22,13 @@ export const CREATE_TOUR_ITINERARY = "INSERT INTO tour_itinerary (tour_id, title
 
 export const GET_ALL_TOUR_ITINERARY = "SELECT * FROM tour_itinerary";
 
-export const GET_TOUR_ITINERARY = "SELECT * FROM tour_itinerary WHERE id=?";
+export const GET_TOUR_ITINERARY = "SELECT * FROM tour_itinerary WHERE tour_id=?";
 
-export const DELETE_TOUR_ITINERARY = "DELETE FROM tour_itinerary WHERE id=?"
+export const DELETE_TOUR_ITINERARY = "DELETE FROM tour_itinerary WHERE `id`=?";
+
+export const DELETE_TOUR_ITINERARY_FOR_UPDATE = "DELETE FROM tour_itinerary WHERE tour_id=?";
+
+export const UPDATE_ITINERARY = "UPDATE tour_itinerary SET tour_id=?, title=?, day=?, description=?, activity=?, stay=?, food=?, status=?, places_to_visit=?, travel=?, image=?, overview=?, travel_option=?, activityIndex=? WHERE id=?"
 
 // Auth Queries
 export const USER_EXIST = "SELECT id, status, username FROM users WHERE username = ? AND password = ?";

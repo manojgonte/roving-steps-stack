@@ -1,4 +1,4 @@
-import { CREATE_TOUR_ITINERARY, DELETE_TOUR_ITINERARY, GET_ALL_TOUR_ITINERARY, GET_TOUR_ITINERARY } from "../Query/userQueries.js";
+import { CREATE_TOUR_ITINERARY, DELETE_TOUR_ITINERARY, DELETE_TOUR_ITINERARY_FOR_UPDATE, GET_ALL_TOUR_ITINERARY, GET_TOUR_ITINERARY } from "../Query/userQueries.js";
 import { pool } from "../connection/database.js"
 
 const database = pool.promise();
@@ -25,5 +25,10 @@ export const updateIntinerary = async (params) => {
 
 export const deleteIntinerary = async (params) => {
     const data = await database.query(DELETE_TOUR_ITINERARY, params);
+    return data;
+}
+
+export const deleteIntineraryForUpdate = async (params) => {
+    const data = await database.query(DELETE_TOUR_ITINERARY_FOR_UPDATE, params);
     return data;
 }
