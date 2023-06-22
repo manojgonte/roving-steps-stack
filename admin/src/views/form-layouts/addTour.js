@@ -162,12 +162,6 @@ const FormLayoutsSeparator = ({ goToItinerary, tourId }) => {
             result = await result.json();
             console.warn(result);
             setActionMessage("Tour updated succefully");
-            // Show a success toast message
-            // toast.success('Tour updated succefully!', {
-            //     position: 'top-center',
-            //     autoClose: 3000, // Toast message will automatically close after 3000ms (3 seconds)
-            //     hideProgressBar: true, // Hide the progress bar
-            // });            
             goToItinerary("itinerary", tourId, isEdit = true);
         } catch (error) {
             console.error("An error occurred:", error);
@@ -441,9 +435,9 @@ const FormLayoutsSeparator = ({ goToItinerary, tourId }) => {
                     <Button onClick={isUpdate ? editTour : addTour} size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
                         {isUpdate ? "Save Edited" : "Add"}
                     </Button>
-                    {!isUpdate && <Button onClick={() => isUpdate ? goToItinerary("itinerary", tourId) : resetForm} size='large' color='secondary' variant='outlined'>
+                    {/* <Button onClick={() => isUpdate ? goToItinerary("itinerary", tourId) : resetForm} size='large' color='secondary' variant='outlined'>
                         {isUpdate ? "Next" : "Reset"}
-                    </Button>}
+                    </Button> */}
                     <Button size='large' color='secondary' variant='outlined'>
                         Cancel
                     </Button>

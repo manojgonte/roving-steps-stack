@@ -19,12 +19,12 @@ import { styled } from '@mui/material/styles'
 
 // ** Icons Imports
 import BasicTourInfo from '../tour/BasicTourInfo'
-import AddItineraryDay from '../tour/AddItineraryDay'
 
 import { BASE_URL } from 'src/config'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Alert } from '@mui/material'
+import { deleteExistingItineries, updateItineraries } from 'src/services/service'
 
 const ButtonStyled = styled(Button)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -37,6 +37,7 @@ const FormLayoutsSeparator = ({ tourId, isItineraryEdit }) => {
     const router = useRouter();
     const [tourDetails, setTourDetails] = useState('');
     const [itineraryArray, setItineraryArray] = useState([]);
+    const [activitiesToDel, setActivitiesToDel] = useState([]);
     const activity = {
         place: "",
         activity: "",
@@ -49,68 +50,17 @@ const FormLayoutsSeparator = ({ tourId, isItineraryEdit }) => {
 
     const handleSubmitUpdate = async (event) => {
         event.preventDefault();
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-        itineraryArray?.map(async (days) => {
-
-            days?.activities?.map(async (activity, index) => {
-                let activityIndex = index
-                let tour_id = days.tourId
-                let title = ""
-                let day = Number(days?.day) + 1
-                let description = activity?.description
-                let myActivity = activity?.activity
-                let stay = activity?.stay
-                let food = activity?.food
-                let status = ""
-                let places_to_visit = activity?.place
-                let travel = activity?.travelOption
-                let image = activity?.image
-                let overview = activity?.description
-                let travel_options = activity?.travelOption
-                let deleteId = activity?.itinerarId
-                console.log(deleteId)
-
-                let ActivityData = {
-                    activityIndex: activityIndex,
-                    tour_id: tour_id,
-                    title: title,
-                    day: day,
-                    description: description,
-                    myActivity: myActivity,
-                    stay: stay,
-                    food: food,
-                    status: status,
-                    places_to_visit: places_to_visit,
-                    travel: travel,
-                    image: image,
-                    overview: overview,
-                    travel_options: travel_options,
-                    deleteId
-                }
-
-                try {
-
-                    var requestOptions = {
-                        method: 'POST',
-                        headers: myHeaders,
-                        body: JSON.stringify(ActivityData),
-                        redirect: 'follow'
-                    };
-
-                    const data = await fetch('http://localhost:5000/itinerary/update/id/', requestOptions);
-                    const result = await data.json();
-                    if (result?.message === "Itinerary updated successfully") {
-                        <Alert severity="error">Itinerary updated successfully</Alert>
-                    }
-                    router.push('/tours');
-                } catch (error) {
-                    console.error("An error occurred:", error);
-                }
-
-            })
-        })
+        if (activitiesToDel?.length > 0) {
+            const deletedData = await deleteExistingItineries(activitiesToDel);
+            // console.log(deletedData);
+            // if (deletedData?.status === true) {
+                const upadtedData = await updateItineraries(itineraryArray);
+                // console.log(upadtedData);
+            // }
+        } else {
+            const upadtedData = await updateItineraries(itineraryArray);
+            console.log(upadtedData);
+        }
     }
 
     const handleSubmit = async (event) => {
@@ -181,7 +131,6 @@ const FormLayoutsSeparator = ({ tourId, isItineraryEdit }) => {
     }, []);
 
     const getTourBasicDetails = async () => {
-        console.log(isItineraryEdit);
         if (tourId) {
             let result = await fetch(`${BASE_URL}/tour/get/id/${tourId}`);
             result = await result.json();
@@ -202,41 +151,47 @@ const FormLayoutsSeparator = ({ tourId, isItineraryEdit }) => {
         result = await result.json();
         console.log(result);
         const tempData = result?.data;
-        const activityArr = tempData.reduce((acc, obj) => {
-            const dayExists = acc.find(item => item.day === obj.day);
-            const { tour_id, day, places_to_visit, activity, travel_options, description, stay, food, image, id } = obj;
+        if (tempData?.length > 0) {
+            setActivitiesToDel(tempData);
+            const activityArr = tempData.reduce((acc, obj) => {
+                const dayExists = acc.find(item => item.day === obj.day);
+                const { tour_id, day, places_to_visit, activity, travel_options, description, stay, food, image, id } = obj;
 
-            if (dayExists) {
-                dayExists.activities.push({
-                    place: places_to_visit,
-                    activity,
-                    travelOption: travel_options,
-                    description,
-                    stay,
-                    food,
-                    image
-                });
-            } else {
-                acc.push({
-                    tourId: tour_id,
-                    day,
-                    activities: [{
+                if (dayExists) {
+                    dayExists.activities.push({
                         place: places_to_visit,
                         activity,
                         travelOption: travel_options,
                         description,
                         stay,
                         food,
-                        image,
-                        itinerarId: id
-                    }]
-                });
-            }
-            return acc;
-        }, []);
+                        image
+                    });
+                } else {
+                    acc.push({
+                        tourId: tour_id,
+                        day,
+                        activities: [{
+                            place: places_to_visit,
+                            activity,
+                            travelOption: travel_options,
+                            description,
+                            stay,
+                            food,
+                            image,
+                            itinerarId: id
+                        }]
+                    });
+                }
+                return acc;
+            }, []);
 
-        console.log(activityArr);
-        setItineraryArray(() => activityArr?.filter((item, index) => ({ ...item, day: index })))
+
+            console.log(activityArr);
+            setItineraryArray(() => activityArr?.filter((item, index) => ({ ...item, day: index })))
+        } else {
+            setItineraryArray(() => [...Array.from({ length: tourData?.days }, (x, i) => ({ tourId: tourData?.id, day: i, activities: [activity] }))]);
+        }
     }
 
     console.log(itineraryArray);

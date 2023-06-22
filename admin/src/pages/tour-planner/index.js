@@ -53,6 +53,7 @@ const Tours = () => {
     }
 
     const handleAddItinerary = (newValue, id, isItiEdit) => {
+        console.log(newValue, id, isItiEdit)
         setTourID(id);
         setIsItineraryEdit(isItiEdit);
     }
