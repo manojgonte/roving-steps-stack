@@ -141,13 +141,7 @@ router.post('/itinerary/update/id/', async (req, res) => {
     let travel_options = reqdata?.travel_options
     let itineraryTourId = reqdata?.deleteId
 
-    console.log(itineraryTourId, typeof itineraryTourId, itineraryTourId !== undefined);
     try {
-
-        if (itineraryTourId !== undefined) {
-            const deleteEarlierDays = await deleteIntinerary(itineraryTourId);
-            console.log("Data deleted succefully", deleteEarlierDays);
-        }        
         // await createItineraryValidation.validateAsync({ ...req?.body});
         const result = await createitinerary([
             tour_id,
@@ -195,12 +189,23 @@ router.post('/itinerary/update/id/', async (req, res) => {
     }
 });
 
-router.delete('/itinerary/delete/id/:id', async (req, res) => {
-    const result = await deleteIntinerary(req?.params?.id);
-    if (result?.length > 0) {
+router.delete('/itinerary/delete/id/id', async (req, res) => {
+    try {
+        const result = await deleteIntinerary(req?.params?.id);
+        if (result?.length > 0) {
+            res.status(200).send(JSON.stringify({
+                message: "Itinerary deleted successfully",
+                data: result,
+                statusCode: 200,
+                status: "success"
+            }))
+        }
+    } catch (error) {
         res.status(200).send(JSON.stringify({
-            message: "Itinerary deleted successfully",
-            data: result
+            error: error,
+            data: result,
+            statusCode: 400,
+            status: "fail"
         }))
     }
 });
