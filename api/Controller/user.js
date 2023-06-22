@@ -1,4 +1,4 @@
-import { CREATE_USERS, GET_USERS, GET_USER_WITH_ID } from "../Query/userQueries.js";
+import { CREATE_USERS, GET_USERS, GET_USER_WITH_ID, GET_USER } from "../Query/userQueries.js";
 import { pool } from "../connection/database.js";
 
 const db = pool.promise();
@@ -16,4 +16,9 @@ export const getUserWIthID = async (params) => {
 export const createUser = async (params) => {
     const result = await db.query(CREATE_USERS, params);
     return result;
+}
+
+export const getUser = async (params) => {
+    const results = await db.query(GET_USER, params);
+    return results[0];
 }

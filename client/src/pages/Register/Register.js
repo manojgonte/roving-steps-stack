@@ -127,28 +127,28 @@ export default function Register() {
                                             <form onSubmit={signUp}>
                                                 <div className="mb-2">
                                                     <div className="mb-3">
-                                                        <label for="name" className="block text-sm text-gray-800" >Name *</label>
+                                                        <label htmlFor="name" className="block text-sm text-gray-800" >Name *</label>
                                                         <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                     </div>
 
                                                     <div className="flex justify-between">
                                                         <div className="mb-3 mr-3 w-full">
-                                                            <label for="contact" className="block text-sm text-gray-800" >Contact *</label>
+                                                            <label htmlFor="contact" className="block text-sm text-gray-800" >Contact *</label>
                                                             <input type="" value={contact} onChange={(e) => setContact(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                         </div>
                                                         <div className="mb-3 w-full">
-                                                            <label for="email" className="block text-sm text-gray-800" >Email *</label>
+                                                            <label htmlFor="email" className="block text-sm text-gray-800" >Email *</label>
                                                             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                         </div>
                                                     </div>
 
                                                     <div className="mb-3">
-                                                        <label for="password" className="block text-sm text-gray-800">Password *</label>
+                                                        <label htmlFor="password" className="block text-sm text-gray-800">Password *</label>
                                                         <input type="password" value={password} onChange={(e) => setpassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                     </div>
 
                                                     <div className="mb-3">
-                                                        <label for="confirm-password" className="block text-sm text-gray-800">Confirm Password *</label>
+                                                        <label htmlFor="confirm-password" className="block text-sm text-gray-800">Confirm Password *</label>
                                                         <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md" />
                                                     </div>
                                                 </div>

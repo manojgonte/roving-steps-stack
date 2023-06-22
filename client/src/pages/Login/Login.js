@@ -5,18 +5,18 @@ import { useRouter } from "next/router";
 import { BASE_URL } from "../../../config";
 
 export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('manoj@yopmail.com');
+    const [password, setPassword] = useState('manoj@123');
     const router = useRouter();
     
     const signIn = async (e) => {
         e.preventDefault();
 
         let body = {
-            username: email,
+            email: email,
             password: password
         }
-
+        
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -27,13 +27,15 @@ export default function Login() {
             redirect: 'follow'
         };
 
-        const data = await fetch(`${BASE_URL}/login/user`, requestOptions);
+        const data = await fetch(`${BASE_URL}/login`, requestOptions);
         const result = await data.json();
-
-        if(result?.statusCode === 200 && result?.status === "success") {
+        console.warn(result);
+        if (result.auth) {
+            localStorage.setItem("user", JSON.stringify(result.user));
+            localStorage.setItem("token", JSON.stringify(result.auth));
             router.push("/")
         } else {
-            console.log("Not able to register");
+            console.log("something went wrong");
         }
     }
 
@@ -86,12 +88,12 @@ export default function Login() {
                                                 <div className="mb-2">
                                                     <div className="mb-3">
                                                         <label className="block text-sm font-normal text-gray-800" >Email *</label>
-                                                        <input type="email" onChange={(e) => setEmail(e.target.value)} className="block w-full px-4 py-2 mt-2 text-[#1B2C60] bg-white border rounded-md" />
+                                                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="block w-full px-4 py-2 mt-2 text-[#1B2C60] bg-white border rounded-md" />
                                                     </div>
 
                                                     <div className="mb-3">
                                                         <label className="block text-sm font-normal text-gray-800">Password *</label>
-                                                        <input type="password" onChange={(e) => setPassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-[#1B2C60] bg-white border rounded-md" />
+                                                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="block w-full px-4 py-2 mt-2 text-[#1B2C60] bg-white border rounded-md" />
                                                     </div>
                                                     
                                                     <div className="mb-3">
@@ -103,10 +105,10 @@ export default function Login() {
                                                     <button onClick={signIn} className="bg-[#ECBF40] w-full h-10 p-3 flex items-center justify-center rounded-md text-white font-semibold opacity-100 text-sm hover:shadow-lg">
                                                         SIGN IN
                                                     </button>
-                                                    <div className="flex mt-2">
+                                                    {/* <div className="flex mt-2">
                                                         <input type="checkbox" className="ml-2" />
                                                         <div className="text-sm text-[#1B2C60]">&nbsp; I agree to <Link href="" className="text-[#ECBF40]">Terms of services</Link> and <Link href="" className="text-[#ECBF40]">Privacy Policy</Link></div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
 
                                                 <div className="flex items-center justify-start pb-6 text-sm">

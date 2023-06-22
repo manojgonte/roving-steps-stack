@@ -1,9 +1,12 @@
 import express from 'express';
-import { createUser, getUserWIthID, getUsers } from '../Controller/user.js';
+import jwt from 'jsonwebtoken';
+import { createUser, getUserWIthID, getUsers, getUser } from '../Controller/user.js';
 import { createUserSchema, id } from '../Schema/user-schema.js';
 const router = express.Router();
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json({ extended: false }));
+
+const jwtKey = "rovingsteps";
 
 router.get("/users", async (req, res) => {
     try {
@@ -59,5 +62,26 @@ router.post("/create_user", async (req, res) => {
         }));
     }
 });
+
+router.post("/login", async (req, resp) => {
+    const { email, password } = req.body;
+    if (email && password) {
+        const user = await getUser([email, password]);
+        // console.warn(user);
+        if (user) {
+            jwt.sign({ user }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+                if (err) {
+                    resp.send({ result: "something went wrong" });
+                }
+                resp.send({ user, auth: token });
+            })
+        } else {
+            resp.send({ result: "user not found" });
+        }
+    } else {
+        resp.send({ result: "user not found2" });
+    }
+});
+
 
 export default router;

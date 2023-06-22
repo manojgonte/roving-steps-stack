@@ -32,6 +32,7 @@ export const UPDATE_ITINERARY = "UPDATE tour_itinerary SET tour_id=?, title=?, d
 
 // Auth Queries
 export const USER_EXIST = "SELECT id, status, username FROM users WHERE username = ? AND password = ?";
+export const GET_USER = "SELECT * FROM users WHERE email = ? AND password = ?";
 
 // destinations
 export const GET_DESTINATIONS = "SELECT * FROM destination";

@@ -1,9 +1,16 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export const Header = () => {
     const router = useRouter();
+    const [auth, setAuth] = useState(null);
+    useEffect(() => {
+        // Perform localStorage action
+        const auth = localStorage.getItem("user");
+        setAuth(auth);
+      }, [])
 
     return (
         <div className="top-0 left-0 w-full h-20 flex flex-row items-center bg-[#2DAAE1] px-16 fixed z-50">
@@ -31,11 +38,16 @@ export const Header = () => {
                 <div className="border-[#ECA740] h-full w-fit flex justify-center items-center  font-normal opacity-100 text-xs hover:border-b-2">
                     <Link href="/Contact">CONTACT US</Link>
                 </div>
+                {auth ?
+                <div className="border-[#ECA740] h-full w-fit flex justify-center items-center  font-normal opacity-100 text-xs hover:border-b-2">
+                    <Link href="/">{JSON.parse(auth)[0].first_name}</Link>
+                </div> :
                 <div className=" h-full w-fit flex justify-center items-center">
                     <button className="bg-[#ECBF40] w-full h-10 p-3 flex items-center justify-center rounded-md  font-normal opacity-100 text-xs hover:shadow-lg">
                         <Link href="/Register">SIGN UP</Link>
                     </button>
                 </div>
+                }
             </div>
         </div>
     )
