@@ -54,36 +54,20 @@ export const deleteExistingItineries = async (activities) => {
             }
         });
 
-        return Promise.all(apiPromises)
-            .then(responses => {
-                return responses.forEach(response => {
-                    if (response.error) {
-                        console.error('Error:', response.message);
-                        return {
-                            error: response.error,
-                            message: response.message,
-                            status: false
-                        }
-                    } else {
-                        console.log('Response:', response);
-                        return {
-                            message: "All itineraries deleted successfully",
-                            status: true,
-                            response
-                        }
-
-                    }
-                });
-            })
-            .catch(error => {
-                // Handle any errors that occurred during the API calls
-                console.error('Error:', error);
-                return {
-                    error: response.error,
-                    message: response.message,
-                    status: false
-                }
-            });
+        const deletedItineraries = Promise.all(apiPromises);
+        try {
+            const result = await deletedItineraries;
+            return {
+                message: "All itineraries deleted successfully",
+                status: true,
+                result
+            }
+        } catch (error) {
+            return {
+                error: error,
+                status: false
+            }
+        }
     }
 }
 
@@ -103,35 +87,22 @@ export const updateItineraries = async (dayList = []) => {
             }
         });
 
-        return Promise.all(apiPromises)
-            .then(responses => {
-                return responses.forEach(response => {
-                    if (response.error) {
-                        console.error('Error:', response.message);
-                        return {
-                            error: response.error,
-                            message: response.message,
-                            status: false
-                        }
-                    } else {
-                        console.log('Response:', response);
-                        return {
-                            message: "All itineraries updated successfully",
-                            status: true
-                        }
-
-                    }
-                });
-            })
-            .catch(error => {
-                // Handle any errors that occurred during the API calls
-                console.error('Error:', error);
-                return {
-                    error: response.error,
-                    message: response.message,
-                    status: false
-                }
-            });
+        const promiseResults = Promise.all(apiPromises);
+        try {
+            const results = await promiseResults;
+            console.log('Response:', results);
+            return {
+                message: "All itineraries updated successfully",
+                status: true,
+                data: results
+            }
+        } catch (error) {
+            return {
+                error: error,
+                message: message,
+                status: false
+            }
+        }
     }
 }
 

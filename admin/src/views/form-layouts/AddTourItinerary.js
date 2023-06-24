@@ -52,14 +52,13 @@ const FormLayoutsSeparator = ({ tourId, isItineraryEdit }) => {
         event.preventDefault();
         if (activitiesToDel?.length > 0) {
             const deletedData = await deleteExistingItineries(activitiesToDel);
-            // console.log(deletedData);
-            // if (deletedData?.status === true) {
+            if (deletedData?.status === true) {
                 const upadtedData = await updateItineraries(itineraryArray);
-                // console.log(upadtedData);
-            // }
+                router.push("/tours");
+            }
         } else {
             const upadtedData = await updateItineraries(itineraryArray);
-            console.log(upadtedData);
+            router.push("/tours");
         }
     }
 
