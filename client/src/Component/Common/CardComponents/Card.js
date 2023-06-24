@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
+import Ratings from "../Ratings";
 
 const Card = (props) => {
     const {
@@ -13,10 +13,11 @@ const Card = (props) => {
         note,
         seeMore,
         button,
-        path
+        path,
+        days,
+        nights
     } = props.cardDetails;
 
-    console.log(img);
     return (
         <div className="flex flex-col w-60 h-full gap-4 items-center">
             <div className="w-60 h-60 p-3 bg-white rounded-md ">
@@ -42,15 +43,11 @@ const Card = (props) => {
                         {name}
                     </div>
                     {!seeMore && <div className=" font-normal text-sm text-black">
-                        5N/6D
+                        {nights}N/{days}D
                     </div>}
                 </div>
                 <div className="flex justify-start my-1">
-                    <FaStar color="#eca740" size={15} />
-                    <FaStar color="#eca740" size={15} />
-                    <FaStar color="#eca740" size={15} />
-                    <FaStarHalfAlt color="#eca740" size={15} />
-                    <FaRegStar color="#eca740" size={15} />
+                    {<Ratings ratings={5} />}
                 </div>
                 {seeMore && <div className="flex flex-col h-8 text-xs overflow-ellipsis overflow-hidden line-clamp-3 text-black">
                     {`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi nulla voluptate nam placeat minus ducimus. Tenetur quasi, harum illum sapiente dolorem voluptas, praesentium commodi quisquam aliquam quas, voluptatum animi ullam!`}
@@ -71,7 +68,7 @@ const Card = (props) => {
                     </div>
                 }
                 {seeMore && <div className=" text-[#27A5BF] text-xs"><Link href={'/TourDetail/' + id}>See more...</Link></div>}
-                {button.enable && <button className="bg-[#ECBF40] hover:bg-[#ECA740] text-white w-24 h-7 rounded-md  text-xs drop-shadow-lg text-center my-2">
+                {false && button.enable && <button className="bg-[#ECBF40] hover:bg-[#ECA740] text-white w-24 h-7 rounded-md  text-xs drop-shadow-lg text-center my-2">
                     BOOK NOW
                 </button>}
             </div>

@@ -6,6 +6,7 @@ import Card from "@/Component/Common/CardComponents/Card";
 import SearchFilter from "@/Component/Common/SearchFilter/SearchFilter";
 import { useEffect, useState } from "react";
 import { getDestinationList, getFilterTourList, getTourList } from "@/Services/commonServices";
+import PopularTourCard from "@/Component/Common/PopularTourCard";
 
 export default function Tours() {
 
@@ -17,11 +18,9 @@ export default function Tours() {
     const [selectedI18nItems, setSelected18nItems] = useState([]);
     const [selectedSTItems, setSelectedSTItems] = useState([]);
 
-    // console.log()
     const handleDomesticItemClick = (item) => {
         setSelectedSTItems([]);
         setSelected18nItems([]);
-        // Check if the item is already selected
         if (selectedDomesticItems.includes(item)) {
             // Item is already selected, remove it from the array
             setSelectedDomesticItems(selectedDomesticItems.filter((selectedItem) => selectedItem !== item));
@@ -73,90 +72,6 @@ export default function Tours() {
         getList();
         tourListFun();
     }, []);
-
-    const cards = [
-        {
-            img: "/Assets/images/common/Hexagone_3.jpg",
-            name: `Destination 10`,
-            stars: 4,
-            facility: "",
-            cost: 5000,
-            note: "per person twin sharing",
-            seeMore: true,
-            button: {
-                text: "Book Now",
-                enable: false
-            }
-        },
-        {
-            img: "/Assets/images/common/Hexagone_2.jpg",
-            name: `Destination 10`,
-            stars: 4,
-            facility: "",
-            cost: 5000,
-            note: "per person twin sharing",
-            seeMore: true,
-            button: {
-                text: "Book Now",
-                enable: false
-            }
-        },
-        {
-            img: "/Assets/images/common/Hexagone_1.jpg",
-            name: `Destination 10`,
-            stars: 4,
-            facility: "",
-            cost: 5000,
-            note: "per person twin sharing",
-            seeMore: true,
-            button: {
-                text: "Book Now",
-                enable: false
-            }
-        }
-    ];
-
-    const cardsTour = [
-        {
-            img: "/Assets/images/common/Hexagone_3.jpg",
-            name: `Destination 10`,
-            stars: 4,
-            facility: "",
-            cost: 5000,
-            note: "per person twin sharing",
-            seeMore: true,
-            button: {
-                text: "Book Now",
-                enable: true
-            }
-        },
-        {
-            img: "/Assets/images/common/Hexagone_2.jpg",
-            name: `Destination 10`,
-            stars: 4,
-            facility: "",
-            cost: 5000,
-            note: "per person twin sharing",
-            seeMore: true,
-            button: {
-                text: "Book Now",
-                enable: true
-            }
-        },
-        {
-            img: "/Assets/images/common/Hexagone_1.jpg",
-            name: `Destination 10`,
-            stars: 4,
-            facility: "",
-            cost: 5000,
-            note: "per person twin sharing",
-            seeMore: true,
-            button: {
-                text: "Book Now",
-                enable: true
-            }
-        }
-    ];
 
     const filterList = async (filterList) => {
         const tourList = await getFilterTourList(filterList);
@@ -271,7 +186,7 @@ export default function Tours() {
                                 <div className="grid grid-cols-3 gap-4">
                                     {
                                         tourPackages?.length > 0 ?
-                                            tourPackages?.map((data, index) => <Card key={index} cardDetails={data} />) :
+                                            tourPackages?.map((data, index) => <PopularTourCard key={index} cardDetails={data} />) :
                                             (
                                                 <div className="font-bold text-lg text-black">
                                                     No Destinations available

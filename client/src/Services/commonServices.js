@@ -17,20 +17,20 @@ export const getTourList = async () => {
 
     return {
         popDest: res?.map(tour => {
-                return {
-                    id: tour?.id,
-                    img: tour?.image,
-                    name: tour?.name,
-                    stars: 4,
-                    facility: "",
-                    cost: tour?.adult_price,
-                    note: tour?.note,
-                    seeMore: true,
-                    button: {
-                        text: "Book Now",
-                        enable: false
-                    }
+            return {
+                id: tour?.id,
+                img: tour?.image,
+                name: tour?.name,
+                stars: 4,
+                facility: "",
+                cost: tour?.adult_price,
+                note: tour?.note,
+                seeMore: true,
+                button: {
+                    text: "Book Now",
+                    enable: false
                 }
+            }
         }).filter(tour => tour),
         tourPackage: res?.map(tour => {
             if (tour?.is_popular == 0) {
@@ -109,13 +109,44 @@ export const getFilterTourList = async (filterList) => {
 }
 
 export const getTourDetails = async (id) => {
-    const res = await fetch(BASE_URL + "/tour-itinerary/get/id/" + id);
+    const res = await fetch(BASE_URL + "/tour/get/id/" + id);
     const result = await res.json();
     const data = result?.data
 
-    if(result?.statusCode === 200 && result?.status === "success") {
-
-    } else {
-        return [];
+    try {
+        if (result?.statusCode === 200 && result?.status === "success") {
+            if (data[0]?.id) {
+                const resposne = await fetch(BASE_URL + "/tour-itinerary/get/id/" + data[0]?.id);
+                const result = await resposne.json();                
+                if (result?.status === "success" && result?.statusCode === 200) {
+                    return {
+                        basicTour: data[0],
+                        itinerary: result?.data
+                    }
+                } else {
+                    console.log("No itineries found for the ID: ", data[0]?.id);
+                    return {
+                        basicTour: data[0],
+                        itinerary: [],
+                    }
+                }
+            } else {
+                console.log("No tour found with requested ID");
+                return {
+                    basicTour: data[0],
+                    itinerary: [],
+                }
+            }
+        } else {
+            return {
+                basicTour: '',
+                itinerary: [],
+            };
+        }
+    } catch (error) {
+        return {
+            basicTour: '',
+            itinerary: []
+        }
     }
 }

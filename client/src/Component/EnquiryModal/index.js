@@ -161,7 +161,7 @@ export default function EnquiryModal({closeModal}) {
                                                     <button onClick={EnquireSubmit} className="bg-[#ECBF40] w-full h-10 p-3 flex items-center justify-center rounded-md text-white font-semibold opacity-100 text-sm hover:shadow-lg">
                                                         Enquire
                                                     </button>
-                                                    <button type="button" className="bg-gray-600 hover:bg-gray-200 text-white font-semibold py-2 px-4 ml-2 rounded" onClick={()=>closeModal()}>Close</button>
+                                                    <button type="button" className="bg-gray-600 hover:bg-gray-200 hover:text-gray-600 text-white font-semibold py-2 px-4 ml-2 rounded" onClick={()=>closeModal()}>Close</button>
                                                 </div>
                                             </form>
                                         </div>
