@@ -120,7 +120,6 @@ router.post("/tour/create/", upload, async (req, res) => {
 router.post("/tour/update", upload, async (req, res) => {
     let reqdata = req?.body;
 
-    console.log(reqdata);
     let name = reqdata?.name;
     let image = req?.file?.filename;
     let type = reqdata?.type;

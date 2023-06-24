@@ -34,7 +34,6 @@ router.get('/tour-itinerary/get', async (req, res) => {
 });
 
 router.get('/tour-itinerary/get/id/:id', async (req, res) => {
-    console.log(req?.params?.id);
     try {
         const result = await getIntinerary(req?.params?.id);
         res.status(200).send(
@@ -189,7 +188,7 @@ router.post('/itinerary/update/id/', async (req, res) => {
     }
 });
 
-router.delete('/itinerary/delete/id/id', async (req, res) => {
+router.delete('/itinerary/delete/id/:id', async (req, res) => {
     try {
         const result = await deleteIntinerary(req?.params?.id);
         if (result?.length > 0) {
